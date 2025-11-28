@@ -22,14 +22,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        // publiek:
                         .requestMatchers("/", "/catalog", "/register", "/login",
                                 "/css/**", "/js/**", "/images/**").permitAll()
 
-                        // enkel ingelogde gebruikers mogen winkelmandje/checkout
                         .requestMatchers("/cart/**", "/checkout/**").authenticated()
 
-                        // rest: voorlopig ook toestaan
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
@@ -42,7 +39,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/catalog")
                         .permitAll()
                 );
-
         return http.build();
     }
 }
