@@ -10,4 +10,5 @@ com\example\eindproject\repository\CartItemRepository.class
 com\example\eindproject\repository\ProductRepository.class
 com\example\eindproject\model\CartItem.class
 com\example\eindproject\repository\UserRepository.class
+com\example\eindproject\config\SecurityConfig.class
 com\example\eindproject\model\Category.class

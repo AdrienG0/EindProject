@@ -12,14 +12,17 @@
     <!-- Categorie dropdown -->
     <label for="categoryId">Categorie:</label>
     <select name="categoryId" id="categoryId">
-        <option th:value=""
+        <!-- Eerste optie: alle categorieën -->
+        <option value=""
                 th:selected="${selectedCategoryId} == null">
             Alle categorieën
         </option>
+
+        <!-- Andere opties: elke categorie -->
         <option th:each="cat : ${categories}"
                 th:value="${cat.id}"
                 th:text="${cat.name}"
-                th:selected="${selectedCategoryId} != null and ${selectedCategoryId} == ${cat.id}">
+                th:selected="${selectedCategoryId} != null and selectedCategoryId == cat.id">
         </option>
     </select>
 

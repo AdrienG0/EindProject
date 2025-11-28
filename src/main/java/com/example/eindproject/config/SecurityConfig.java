@@ -13,7 +13,9 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/catalog", "/css/**").permitAll()
+                        // Publieke pagina's
+                        .requestMatchers("/catalog", "/css/**", "/login").permitAll()
+                        // Alles anders: login vereist
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
