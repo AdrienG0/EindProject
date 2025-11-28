@@ -1,0 +1,12 @@
+com\example\eindproject\model\Product.class
+com\example\eindproject\EindProjectApplication.class
+com\example\eindproject\model\User.class
+com\example\eindproject\repository\OrderRepository.class
+com\example\eindproject\model\Order.class
+com\example\eindproject\repository\CategoryRepository.class
+com\example\eindproject\config\DataInitializer.class
+com\example\eindproject\repository\CartItemRepository.class
+com\example\eindproject\repository\ProductRepository.class
+com\example\eindproject\model\CartItem.class
+com\example\eindproject\repository\UserRepository.class
+com\example\eindproject\model\Category.class
