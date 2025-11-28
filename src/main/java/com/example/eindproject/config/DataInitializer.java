@@ -25,6 +25,7 @@ public class DataInitializer {
 
             User user = new User("Adrien Student", "adrien@student.ehb.be");
             user.setPassword(passwordEncoder.encode("Password123"));
+            user.setRole("USER");
             userRepository.save(user);
 
             Category cat1 = new Category("Boeken");

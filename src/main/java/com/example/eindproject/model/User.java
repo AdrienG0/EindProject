@@ -20,7 +20,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private String role = "USER";
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
@@ -31,6 +31,7 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        this.role = "USER";
     }
 
     public Long getId() {
