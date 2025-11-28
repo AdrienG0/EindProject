@@ -5,6 +5,7 @@ import com.example.eindproject.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 
@@ -17,11 +18,13 @@ public class DataInitializer {
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
             OrderRepository orderRepository,
-            CartItemRepository cartItemRepository
+            CartItemRepository cartItemRepository,
+            PasswordEncoder passwordEncoder
     ) {
         return args -> {
 
             User user = new User("Adrien Student", "adrien@student.ehb.be");
+            user.setPassword(passwordEncoder.encode("Password123"));
             userRepository.save(user);
 
             Category cat1 = new Category("Boeken");

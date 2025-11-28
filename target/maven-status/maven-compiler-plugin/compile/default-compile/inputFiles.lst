@@ -1,5 +1,6 @@
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\config\DataInitializer.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\config\SecurityConfig.java
+C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\controller\AuthController.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\controller\CatalogController.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\EindProjectApplication.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\model\CartItem.java
@@ -12,3 +13,4 @@ C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\repository\OrderRepository.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\repository\ProductRepository.java
 C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\repository\UserRepository.java
+C:\Users\adrie\OneDrive\Bureau\EindProject\src\main\java\com\example\eindproject\service\CustomUserDetailsService.java
