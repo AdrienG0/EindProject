@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalogus</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<h1>Productcatalogus</h1>
+
+<form th:action="@{/catalog}" method="get">
+    <!-- Categorie dropdown -->
+    <label for="categoryId">Categorie:</label>
+    <select name="categoryId" id="categoryId">
+        <option th:value=""
+                th:selected="${selectedCategoryId} == null">
+            Alle categorieën
+        </option>
+        <option th:each="cat : ${categories}"
+                th:value="${cat.id}"
+                th:text="${cat.name}"
+                th:selected="${selectedCategoryId} != null and ${selectedCategoryId} == ${cat.id}">
+        </option>
+    </select>
+
+    <label for="search">Zoekterm:</label>
+    <input type="text" id="search" name="search"
+           placeholder="Zoek op naam"
+           th:value="${search}">
+
+    <button type="submit">Filter</button>
+    <a th:href="@{/catalog}">Reset</a>
+</form>
+
+<hr>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Naam</th>
+        <th>Categorie</th>
+        <th>Prijs</th>
+        <th>Beschrijving</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(products)}">
+        <td colspan="4">Geen producten gevonden.</td>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.category != null ? product.category.name : '—'}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.description}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
