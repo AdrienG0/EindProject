@@ -19,7 +19,7 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<CarItem> items = new ArrayList<>();
+    private List<CartItem> items = new ArrayList<>();
 
     public Order() {
     }
@@ -45,7 +45,7 @@ public class Order {
         this.user = user;
     }
 
-    public List<CarItem> getItems() {
+    public List<CartItem> getItems() {
         return items;
     }
 

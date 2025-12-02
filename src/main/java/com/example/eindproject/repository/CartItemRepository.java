@@ -1,7 +1,11 @@
 package com.example.eindproject.repository;
 
-import com.example.eindproject.model.CarItem;
+import com.example.eindproject.model.CartItem;
+import com.example.eindproject.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CartItemRepository extends JpaRepository<CarItem, Long>{
+import java.util.List;
+
+public interface CartItemRepository extends JpaRepository<CartItem, Long>{
+    List<CartItem> findByUserAndOrderIsNull(User user);
 }

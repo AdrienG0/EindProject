@@ -22,7 +22,7 @@ public class Product {
     private Category category;
 
     @OneToMany(mappedBy = "product")
-    private List<CarItem> cartItems = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Product() {
     }
@@ -70,7 +70,7 @@ public class Product {
         this.category = category;
     }
 
-    public List<CarItem> getCartItems() {
+    public List<CartItem> getCartItems() {
         return cartItems;
     }
 

@@ -3,14 +3,16 @@ package com.example.eindproject.model;
 import jakarta.persistence.*;
 
 @Entity
-public class CarItem {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int quantity;
 
-    
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -20,11 +22,18 @@ public class CarItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public CarItem() {
+    public CartItem() {
     }
 
-    public CarItem(Order order, Product product, int quantity) {
+
+    public CartItem(Order order, Product product, int quantity) {
         this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    public CartItem(User user, Product product, int quantity) {
+        this.user = user;
         this.product = product;
         this.quantity = quantity;
     }
