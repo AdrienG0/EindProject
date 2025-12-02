@@ -54,4 +54,15 @@ public class CartController {
 
         return "cart"; // => cart.html (maken we in de volgende stap mooi)
     }
+
+    @PostMapping("/update")
+    public String updateCartItem(@RequestParam("cartItemId") Long cartItemId,
+                                 @RequestParam("quantity") int quantity,
+                                 Authentication authentication) {
+
+        User user = getCurrentUser(authentication);
+        cartService.updateQuantity(user, cartItemId, quantity);
+
+        return "redirect:/cart";
+    }
 }

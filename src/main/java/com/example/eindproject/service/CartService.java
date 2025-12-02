@@ -61,4 +61,20 @@ public class CartService {
     public void clearCart(User user) {
         cartItemRepository.deleteByUserAndOrderIsNull(user);
     }
+
+    public void updateQuantity(User user, Long cartItemId, int quantity) {
+        cartItemRepository.findById(cartItemId).ifPresent(item -> {
+            // Extra veiligheidscheck: hoort dit item bij deze user en is het nog geen order?
+            if (item.getUser().getId().equals(user.getId()) && item.getOrder() == null) {
+
+                // Als iemand 0 of kleiner invult: item gewoon verwijderen
+                if (quantity <= 0) {
+                    cartItemRepository.delete(item);
+                } else {
+                    item.setQuantity(quantity);
+                    cartItemRepository.save(item);
+                }
+            }
+        });
+    }
 }
