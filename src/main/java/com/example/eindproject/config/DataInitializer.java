@@ -49,8 +49,8 @@ public class DataInitializer {
             Order order = new Order(user);
             orderRepository.save(order);
 
-            CartItem item1 = new CartItem(order, p1, 1);
-            CartItem item2 = new CartItem(order, p2, 2);
+            CarItem item1 = new CarItem(order, p1, 1);
+            CarItem item2 = new CarItem(order, p2, 2);
 
             cartItemRepository.save(item1);
             cartItemRepository.save(item2);

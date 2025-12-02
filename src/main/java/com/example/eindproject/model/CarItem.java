@@ -3,12 +3,14 @@ package com.example.eindproject.model;
 import jakarta.persistence.*;
 
 @Entity
-public class CartItem {
+public class CarItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int quantity;
+
+    
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -18,10 +20,10 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public CartItem() {
+    public CarItem() {
     }
 
-    public CartItem(Order order, Product product, int quantity) {
+    public CarItem(Order order, Product product, int quantity) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
