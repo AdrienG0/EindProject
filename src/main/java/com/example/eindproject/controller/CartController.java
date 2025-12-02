@@ -31,14 +31,6 @@ public class CartController {
                 .orElseThrow(() -> new IllegalStateException("User not found: " + email));
     }
 
-    @ModelAttribute("cartCount")
-    public int cartCount(Authentication authentication) {
-        if (authentication == null) return 0;
-
-        User user = getCurrentUser(authentication);
-        return cartService.getCartItems(user).size();
-    }
-
     @PostMapping("/add/{productId}")
     public String addToCart(@PathVariable Long productId,
                             @RequestParam(defaultValue = "1") int quantity,
