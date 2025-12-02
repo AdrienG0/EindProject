@@ -66,6 +66,14 @@ public class CartItem {
         this.product = product;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "CartItem{id=" + id +
