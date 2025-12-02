@@ -1,25 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Registreren</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
-<body>
-<h1>Registreren</h1>
+<body class="auth-body">
 
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" required>
-    </div>
-    <div>
-        <label>Wachtwoord:</label>
-        <input type="password" th:field="*{password}" required>
-    </div>
+<div class="auth-container">
+    <h1 class="auth-title">Registreren</h1>
+    <p class="auth-subtitle">
+        Maak een nieuw account aan om producten te bestellen.
+    </p>
 
+    <form th:action="@{/register}" th:object="${user}"
+          method="post" class="auth-form">
 
-    <button type="submit">Registreren</button>
-</form>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email"
+                   th:field="*{email}"
+                   placeholder="jouw.email@voorbeeld.be" required>
+        </div>
 
-<p>Al een account? <a th:href="@{/login}">Log hier in</a></p>
+        <div class="form-group">
+            <label for="password">Wachtwoord</label>
+            <input id="password" type="password"
+                   th:field="*{password}"
+                   placeholder="Kies een veilig wachtwoord" required>
+        </div>
+
+        <button type="submit" class="auth-button">Registreren</button>
+    </form>
+
+    <p class="auth-footer">
+        Al een account?
+        <a th:href="@{/login}">Log hier in</a>
+    </p>
+</div>
+
 </body>
 </html>

@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
 </head>
-<body>
-<h1>Login</h1>
+<body class="auth-body">
 
-<form th:action="@{/login}" method="post">
-    <div>
-        <label>Email:</label>
-        <input type="text" name="username" required>
+<div class="auth-container">
+    <h1 class="auth-title">Inloggen</h1>
+    <p class="auth-subtitle">
+        Log in om je winkelmandje en checkout te gebruiken.
+    </p>
+
+    <!-- Fout- of succesbericht -->
+    <div th:if="${param.error}" class="auth-alert auth-alert-error">
+        Foutieve inloggegevens. Probeer opnieuw.
     </div>
-    <div>
-        <label>Wachtwoord:</label>
-        <input type="password" name="password" required>
+    <div th:if="${param.logout}" class="auth-alert auth-alert-success">
+        Je bent succesvol uitgelogd.
     </div>
 
-    <button type="submit">Inloggen</button>
-</form>
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <!-- Belangrijk: name="username" voor Spring Security -->
+            <input id="email" type="text" name="username"
+                   placeholder="jouw.email@voorbeeld.be" required>
+        </div>
 
-<div th:if="${param.error}">
-    <p style="color:red;">Foutieve login.</p>
+        <div class="form-group">
+            <label for="password">Wachtwoord</label>
+            <input id="password" type="password" name="password"
+                   placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="auth-button">Inloggen</button>
+    </form>
+
+    <p class="auth-footer">
+        Nog geen account?
+        <a th:href="@{/register}">Registreer hier</a>
+    </p>
 </div>
 
-<div th:if="${param.logout}">
-    <p>Je bent uitgelogd.</p>
-</div>
-
-<p>Nog geen account? <a th:href="@{/register}">Registreer hier</a></p>
 </body>
 </html>
