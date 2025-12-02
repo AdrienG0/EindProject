@@ -4,6 +4,7 @@ com\example\eindproject\model\User.class
 com\example\eindproject\repository\OrderRepository.class
 com\example\eindproject\model\Order.class
 com\example\eindproject\repository\CategoryRepository.class
+com\example\eindproject\controller\CartController.class
 com\example\eindproject\controller\AuthController.class
 com\example\eindproject\config\DataInitializer.class
 com\example\eindproject\service\CustomUserDetailsService.class
@@ -14,3 +15,4 @@ com\example\eindproject\model\CartItem.class
 com\example\eindproject\repository\UserRepository.class
 com\example\eindproject\config\SecurityConfig.class
 com\example\eindproject\model\Category.class
+com\example\eindproject\service\CartService.class
