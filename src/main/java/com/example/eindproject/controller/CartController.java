@@ -52,7 +52,7 @@ public class CartController {
         model.addAttribute("items", items);
         model.addAttribute("total", total);
 
-        return "cart"; // => cart.html (maken we in de volgende stap mooi)
+        return "cart";
     }
 
     @PostMapping("/update")
@@ -65,4 +65,23 @@ public class CartController {
 
         return "redirect:/cart";
     }
+
+    @GetMapping("/checkout")
+    public String showCheckout(Model model, Authentication authentication) {
+        User user = getCurrentUser(authentication);
+
+        var items = cartService.getCartItems(user);
+
+        if (items.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        var total = cartService.getCartTotal(user);
+
+        model.addAttribute("items", items);
+        model.addAttribute("total", total);
+
+        return "checkout";
+    }
+
 }
