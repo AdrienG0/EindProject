@@ -2,11 +2,14 @@ package com.example.eindproject.controller;
 
 import com.example.eindproject.model.CartItem;
 import com.example.eindproject.model.User;
+import com.example.eindproject.model.Order;
 import com.example.eindproject.service.CartService;
 import com.example.eindproject.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import com.example.eindproject.repository.OrderRepository;
+import com.example.eindproject.repository.CartItemRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -18,11 +21,17 @@ public class CartController {
 
     private final CartService cartService;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final CartItemRepository cartItemRepository;
 
     public CartController(CartService cartService,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          OrderRepository orderRepository,
+                          CartItemRepository cartItemRepository) {
         this.cartService = cartService;
         this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     private User getCurrentUser(Authentication authentication) {
@@ -82,6 +91,34 @@ public class CartController {
         model.addAttribute("total", total);
 
         return "checkout";
+    }
+
+    @PostMapping("/checkout")
+    public String confirmCheckout(Authentication authentication, Model model) {
+        User user = getCurrentUser(authentication);
+
+        var items = cartService.getCartItems(user);
+
+        if (items.isEmpty()) {
+            return "redirect:/cart";
+        }
+
+        var total = cartService.getCartTotal(user);
+
+        Order order = new Order();
+
+        order = orderRepository.save(order);
+
+        for (CartItem item : items) {
+            item.setOrder(order);
+        }
+        cartItemRepository.saveAll(items);
+
+        model.addAttribute("order", order);
+        model.addAttribute("items", items);
+        model.addAttribute("total", total);
+
+        return "confirmation";
     }
 
 }

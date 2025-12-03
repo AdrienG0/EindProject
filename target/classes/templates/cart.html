@@ -153,11 +153,19 @@
                     ← Verder shoppen
                 </a>
 
-                <div class="total-box">
-                    Totaal:
-                    <span th:text="${total} + ' €'">0.00 €</span>
+                <div class="text-end">
+                    <div class="total-box mb-3">
+                        Totaal:
+                        <span th:text="${total} + ' €'">0.00 €</span>
+                    </div>
+
+                    <a href="/cart/checkout" class="btn btn-success px-4 py-2" style="border-radius: 999px;">
+                        Ga naar checkout →
+                    </a>
                 </div>
+
             </div>
+
 
         </div>
     </div>
