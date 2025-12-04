@@ -29,23 +29,74 @@ public class DataInitializer {
             userRepository.save(user);
 
             User admin = new User("Admin", "admin@ehb.be");
+            admin.setPassword(passwordEncoder.encode("Admin123"));
+            admin.setRole("ADMIN");
+            userRepository.save(admin);
+
             Category cat1 = new Category("Boeken");
             Category cat2 = new Category("Electronica");
+            Category cat3 = new Category("Gaming accessoires");
+
             categoryRepository.save(cat1);
             categoryRepository.save(cat2);
+            categoryRepository.save(cat3);
 
-            Product p1 = new Product("Spring in Action",
+            Product p1 = new Product(
+                    "Spring in Action",
                     "Java Spring Boot book",
                     new BigDecimal("39.99"),
-                    cat1);
+                    cat1
+            );
 
-            Product p2 = new Product("Draadloze muis",
+            Product p2 = new Product(
+                    "Draadloze muis",
                     "Simpele draadlooze muis",
                     new BigDecimal("19.99"),
-                    cat2);
+                    cat2
+            );
+
+            Product g1 = new Product(
+                    "Logitech G Pro X Superlight 2",
+                    "Ultralichte draadloze gamingmuis met hoge precisie voor competitieve gamers.",
+                    new BigDecimal("169.99"),
+                    cat3
+            );
+
+            Product g2 = new Product(
+                    "SteelSeries Arctis Nova 7 Wireless",
+                    "Comfortabele draadloze gamingheadset met helder geluid en lange batterijduur.",
+                    new BigDecimal("199.99"),
+                    cat3
+            );
+
+            Product g3 = new Product(
+                    "Razer Huntsman Mini",
+                    "Compact 60% mechanisch toetsenbord met optische switches voor snelle respons.",
+                    new BigDecimal("139.99"),
+                    cat3
+            );
+
+            Product g4 = new Product(
+                    "Corsair MM700 RGB Muismat",
+                    "Extra grote RGB-muismat met USB-hub, ideaal voor volledige setup.",
+                    new BigDecimal("79.99"),
+                    cat3
+            );
+
+            Product g5 = new Product(
+                    "Elgato Stream Deck MK.2",
+                    "Programmeerbaar streamdeck voor snelle bediening van scenes, macro’s en acties.",
+                    new BigDecimal("179.99"),
+                    cat3
+            );
 
             productRepository.save(p1);
             productRepository.save(p2);
+            productRepository.save(g1);
+            productRepository.save(g2);
+            productRepository.save(g3);
+            productRepository.save(g4);
+            productRepository.save(g5);
 
             Order order = new Order(user);
             orderRepository.save(order);
