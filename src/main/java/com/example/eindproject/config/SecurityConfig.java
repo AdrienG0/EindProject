@@ -22,12 +22,22 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/catalog", "/register", "/login",
-                                "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
 
-                        .requestMatchers("/cart/**", "/checkout/**").authenticated()
+                        .requestMatchers("/", "/login", "/register",
+                                "/css/**", "/js/**", "/img/**").permitAll()
 
-                        .anyRequest().permitAll()
+                        .requestMatchers("/catalog").permitAll()
+
+                        .requestMatchers("/cart/**", "/checkout/**", "/home").authenticated()
+
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                )
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.disable())
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
