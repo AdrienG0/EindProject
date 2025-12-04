@@ -1,4 +1,5 @@
 com\example\eindproject\EindProjectApplication.class
+com\example\eindproject\controller\HomeController.class
 com\example\eindproject\repository\OrderRepository.class
 com\example\eindproject\model\Order.class
 com\example\eindproject\repository\CategoryRepository.class
