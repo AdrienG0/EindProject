@@ -8,7 +8,6 @@
 </head>
 <body class="bg-light">
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/home">Mijn Webshop</a>
@@ -32,7 +31,6 @@
                 </li>
             </ul>
 
-            <!-- Logout rechts -->
             <form th:action="@{/logout}" method="post" class="d-flex">
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
@@ -71,7 +69,7 @@
             <div class="col-md-6">
                 <div class="row g-3">
                     <div class="col-6">
-                        <img src="https://via.placeholder.com/400x260?text=Boek"
+                        <img th:src="@{/img/Boek.jpg}"
                              alt="Boek"
                              class="img-fluid rounded shadow-sm">
                     </div>
