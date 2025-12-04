@@ -28,6 +28,7 @@ public class DataInitializer {
             user.setRole("USER");
             userRepository.save(user);
 
+            User admin = new User("Admin", "admin@ehb.be");
             Category cat1 = new Category("Boeken");
             Category cat2 = new Category("Electronica");
             categoryRepository.save(cat1);
