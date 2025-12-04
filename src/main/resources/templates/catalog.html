@@ -99,12 +99,13 @@
                           method="post"
                           class="d-flex align-items-center">
 
-                        <!-- CSRF token (zoals bij login/register) -->
                         <input type="hidden"
                                th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
 
-                        <!-- Aantal (optioneel, standaard 1) -->
+                        <input type="hidden" name="categoryId" th:value="${selectedCategoryId}">
+                        <input type="hidden" name="search" th:value="${search}">
+
                         <input type="number"
                                name="quantity"
                                value="1"
@@ -116,6 +117,7 @@
                             Toevoegen
                         </button>
                     </form>
+
                 </div>
 
             </div>

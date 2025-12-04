@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.example.eindproject.repository.OrderRepository;
 import com.example.eindproject.repository.CartItemRepository;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -35,7 +36,7 @@ public class CartController {
     }
 
     private User getCurrentUser(Authentication authentication) {
-        String email = authentication.getName(); // principal = email
+        String email = authentication.getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found: " + email));
     }
@@ -43,10 +44,20 @@ public class CartController {
     @PostMapping("/add/{productId}")
     public String addToCart(@PathVariable Long productId,
                             @RequestParam(defaultValue = "1") int quantity,
-                            Authentication authentication) {
+                            @RequestParam(required = false) Long categoryId,
+                            @RequestParam(required = false, name = "search") String search,
+                            Authentication authentication,
+                            RedirectAttributes redirectAttributes) {
 
         User user = getCurrentUser(authentication);
         cartService.addToCart(user, productId, quantity);
+
+        if (categoryId != null) {
+            redirectAttributes.addAttribute("categoryId", categoryId);
+        }
+        if (search != null && !search.isBlank()) {
+            redirectAttributes.addAttribute("search", search);
+        }
 
         return "redirect:/catalog";
     }
