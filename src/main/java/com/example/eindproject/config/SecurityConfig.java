@@ -30,8 +30,8 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")          // eigen loginview
-                        .defaultSuccessUrl("/catalog", true) // na login naar catalog
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
