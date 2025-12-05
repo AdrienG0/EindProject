@@ -3,12 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <title>Home - Mijn Webshop</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
-</head>
-<body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <style>
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
+            color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+
+        .navbar {
+            background: linear-gradient(90deg, #8b0f7a, #e01e37) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-link {
+            color: #f3e8ff !important;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff4b7d, #b517ff);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-outline-danger {
+            border-radius: 999px;
+            border-color: #ff4b7d;
+            color: #ff4b7d;
+            font-weight: 600;
+        }
+
+        .btn-outline-danger:hover {
+            background: #ff4b7d;
+            color: #fff;
+        }
+
+
+        section.hero {
+            padding: 70px 0;
+            background: rgba(0,0,0,0.25);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.6);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #f9fafb;
+            text-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e11d48, #a21caf);
+            border: none;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 10px 22px;
+            box-shadow: 0 0 12px rgba(236,72,153,0.5);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #fb7185, #c084fc);
+        }
+
+        .btn-outline-primary {
+            border-radius: 999px;
+            border-color: #c084fc;
+            color: #c084fc;
+            padding: 10px 22px;
+        }
+
+        .btn-outline-primary:hover {
+            background: #c084fc;
+            color: #fff;
+        }
+
+
+        .info-card {
+            background: rgba(20,20,30,0.9);
+            border: 1px solid rgba(148,163,184,0.25);
+            padding: 25px;
+            border-radius: 14px;
+            color: #e2e8f0;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+        }
+
+        .info-card h3 {
+            color: #f97316;
+            font-weight: 700;
+        }
+
+
+        .card {
+            background: radial-gradient(circle at top left, #181827, #050509 60%);
+            border: 1px solid rgba(148,163,184,0.25);
+            color: #e5e7eb;
+            border-radius: 14px;
+            box-shadow: 0 10px 22px rgba(0,0,0,0.65);
+        }
+
+        .card-title {
+            color: #facc15 !important;
+        }
+
+        .card-text {
+            color: #cbd5e1 !important;
+        }
+
+        .card-footer {
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(148,163,184,0.25);
+        }
+
+        .card-footer span {
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .card-footer .btn-primary {
+            padding: 6px 14px;
+        }
+
+
+        footer {
+            background: rgba(10,10,20,0.8);
+            border-top: 1px solid rgba(148,163,184,0.25);
+            color: #9ca3af;
+            padding: 20px 0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/home">Mijn Webshop</a>
 
@@ -19,9 +182,10 @@
         </button>
 
         <div class="collapse navbar-collapse" id="mainNavbar">
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                    <a class="nav-link active" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/catalog">Catalogus</a>
@@ -41,147 +205,138 @@
     </div>
 </nav>
 
-<section class="py-5 bg-white shadow-sm">
+<section class="hero py-5">
     <div class="container">
         <div class="row align-items-center g-4">
+
             <div class="col-md-6">
-                <h1 class="display-5 fw-bold mb-3">
-                    Welkom bij jouw online catalogus
-                </h1>
-                <p class="lead text-muted mb-4">
-                    Deze webshop is opgebouwd met Spring Boot en Thymeleaf.
-                    Blader door de productcatalogus, voeg items toe aan je winkelmandje
-                    en rond je bestelling af via een eenvoudige checkout.
+                <h1 class="display-5 fw-bold mb-3">Welkom bij jouw online catalogus</h1>
+
+                <p class="lead mb-4">
+                    Deze webshop is gebouwd met Spring Boot & Thymeleaf.
+                    Verken producten, voeg ze toe aan je mandje en rond eenvoudig je bestelling af.
                 </p>
 
                 <div class="d-flex gap-2">
-                    <a href="/catalog" class="btn btn-primary btn-lg">
-                        Bekijk catalogus
-                    </a>
-                    <a href="/cart" class="btn btn-outline-primary btn-lg">
-                        Ga naar winkelmandje
-                    </a>
+                    <a href="/catalog" class="btn btn-primary btn-lg">Bekijk catalogus</a>
+                    <a href="/cart" class="btn btn-outline-primary btn-lg">Ga naar winkelmandje</a>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="row g-3">
                     <div class="col-6">
-                        <img th:src="@{/img/Boek.jpg}"
-                             alt="Boek"
-                             class="img-fluid rounded shadow-sm">
+                        <img th:src="@{/img/Boek.jpg}" class="img-fluid rounded shadow" alt="Boek">
                     </div>
                     <div class="col-6">
-                        <img th:src="@{/img/Elektronica.jpg}"
-                             alt="Elektronica"
-                             class="img-fluid rounded shadow-sm mb-3">
-                        <img th:src="@{/img/gamingaccessories.jpg}"
-                             alt="Accessoires"
-                             class="img-fluid rounded shadow-sm">
+                        <img th:src="@{/img/Elektronica.jpg}" class="img-fluid rounded shadow mb-3" alt="Elektronica">
+                        <img th:src="@{/img/gamingaccessories.jpg}" class="img-fluid rounded shadow" alt="Accessoires">
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
 <section class="py-5">
     <div class="container">
         <h2 class="h3 fw-bold mb-4">Wat kan je op deze website doen?</h2>
 
         <div class="row g-4">
+
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100">
-                    <h3 class="h5 fw-semibold mb-2">Producten ontdekken</h3>
-                    <p class="text-muted mb-0">
+                <div class="info-card h-100">
+                    <h3>Producten ontdekken</h3>
+                    <p>
                         Bekijk alle producten in de catalogus, filter op categorie
-                        en zoek op naam. Zo vind je snel wat je nodig hebt.
+                        en zoek op naam.
                     </p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100">
-                    <h3 class="h5 fw-semibold mb-2">Winkelmandje beheren</h3>
-                    <p class="text-muted mb-0">
-                        Voeg producten toe aan je winkelmandje, pas aantallen aan
-                        en verwijder items voordat je afrekent.
+                <div class="info-card h-100">
+                    <h3>Winkelmandje beheren</h3>
+                    <p>
+                        Voeg producten toe, wijzig aantallen of verwijder items wanneer je wil.
                     </p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="p-4 bg-white rounded shadow-sm h-100">
-                    <h3 class="h5 fw-semibold mb-2">Bestelling afronden</h3>
-                    <p class="text-muted mb-0">
-                        Ga naar de checkout, bekijk een overzicht van je bestelling
-                        en bevestig je order. Ideaal om de volledige flow te testen.
+                <div class="info-card h-100">
+                    <h3>Bestelling afronden</h3>
+                    <p>
+                        Bekijk het overzicht van je order, bevestig en voltooi de reservatie.
                     </p>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
-<section class="py-5 bg-white">
+
+<section class="py-5">
     <div class="container">
         <h2 class="h3 fw-bold mb-4">Populaire producten</h2>
 
         <div class="row g-4">
+
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <img th:src="@{/img/Spring.jpg}"
-                         class="card-img-top" alt="Spring in Action">
+                <div class="card h-100">
+                    <img th:src="@{/img/Spring.jpg}" class="card-img-top" alt="Spring in Action">
                     <div class="card-body">
                         <h5 class="card-title mb-1">Spring in Action</h5>
-                        <p class="card-text text-muted">
-                            Java Spring Boot boek voor ontwikkelaars die moderne webapplicaties willen bouwen.
+                        <p class="card-text">
+                            Java Spring Boot boek voor moderne applicatiebouwers.
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">4.99 € / dag</span>
+                        <span>4.99 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <img th:src="@{/img/DraadlozeMuis.jpg}"
-                         class="card-img-top" alt="Draadloze muis">
+                <div class="card h-100">
+                    <img th:src="@{/img/DraadlozeMuis.jpg}" class="card-img-top" alt="Muis">
                     <div class="card-body">
                         <h5 class="card-title mb-1">Draadloze muis</h5>
-                        <p class="card-text text-muted">
-                            Simpele, betrouwbare draadloze muis voor dagelijks gebruik aan een scherpe prijs.
+                        <p class="card-text">
+                            Simpele en betrouwbare draadloze muis voor dagelijks gebruik.
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">3.00 € / dag</span>
+                        <span>3.00 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <img th:src="@{/img/GamingHeadset.webp}"
-                         class="card-img-top" alt="Gaming headset">
+                <div class="card h-100">
+                    <img th:src="@{/img/GamingHeadset.webp}" class="card-img-top" alt="Gaming headset">
                     <div class="card-body">
                         <h5 class="card-title mb-1">Gaming headset</h5>
-                        <p class="card-text text-muted">
-                            Comfortabele headset met helder geluid, ideaal voor gaming en online meetings.
+                        <p class="card-text">
+                            Comfortabel en helder geluid — perfect voor gaming & online meetings.
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">12.99 € / dag</span>
+                        <span>12.99 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
-<footer class="py-4 bg-light border-top mt-4">
-    <div class="container text-center text-muted">
+<footer class="py-4">
+    <div class="container text-center">
         <small>&copy; 2025 Mijn Webshop - Eindproject Spring Boot</small>
     </div>
 </footer>

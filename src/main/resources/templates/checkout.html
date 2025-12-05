@@ -9,9 +9,17 @@
             rel="stylesheet">
 
     <style>
+
         body {
-            background-color: #f5f7fa;
+            min-height: 100vh;
+            margin: 0;
             font-family: "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
+            color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 900px;
         }
 
         .checkout-wrapper {
@@ -19,50 +27,155 @@
             margin-bottom: 60px;
         }
 
-        .checkout-card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
 
         .checkout-title {
-            font-weight: 700;
+            font-weight: 800;
             font-size: 2rem;
             margin-bottom: 25px;
-            color: #333;
+            color: #f9fafb;
+            text-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
+        }
+
+
+        .checkout-card {
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: radial-gradient(circle at top left, #181827, #050509 60%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
+        }
+
+        .checkout-card .card-body {
+            padding: 1.7rem;
+        }
+
+        .checkout-card .text-muted {
+            color: #9ca3af !important;
+        }
+
+
+        .table {
+            color: #e5e7eb !important;
         }
 
         .table > :not(caption) > * > * {
             padding: 14px 12px;
             vertical-align: middle;
+            background-color: transparent;
         }
 
         .table thead {
-            background-color: #eef1f5;
+            background: linear-gradient(90deg, rgba(15,23,42,0.95), rgba(24,24,39,0.95));
+        }
+
+        .table thead th {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+            color: #f9fafb !important;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .table tbody tr {
+            border-color: rgba(51, 65, 85, 0.7);
         }
 
         .table tbody tr:hover {
-            background-color: #fafafa;
+            background: radial-gradient(circle at left, rgba(236, 72, 153, 0.12), transparent 60%);
         }
 
+        .table tbody td,
+        .table tbody th {
+            color: #e5e7eb !important;
+        }
+
+        .table tbody td strong {
+            color: #facc15 !important;
+        }
+
+        .table tbody td small,
+        .table tbody td .text-muted {
+            color: #cbd5f5 !important;
+        }
+
+
         .badge-price {
-            font-size: 0.95rem;
-            padding: 6px 10px;
-            background-color: #0d6efd;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #e11d48, #a21caf);
             color: white;
             border-radius: 999px;
+            box-shadow: 0 0 12px rgba(236, 72, 153, 0.7);
         }
+
 
         .total-box {
             font-size: 1.4rem;
             font-weight: bold;
-            color: #222;
+            color: #f9fafb;
+        }
+
+        .total-box span {
+            color: #f97316;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 999px;
+            border-color: #6b7280;
+            color: #e5e7eb;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #374151;
+            color: #ffffff;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            font-weight: 600;
+            border-radius: 999px;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
         }
 
         .btn-confirm {
             padding: 10px 24px;
             font-size: 1.05rem;
-            border-radius: 999px;
+        }
+
+
+        @media (max-width: 767.98px) {
+            .checkout-title {
+                font-size: 1.7rem;
+            }
+
+            .checkout-card .card-body {
+                padding: 1.2rem;
+            }
+
+            .d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: stretch !important;
+                gap: 1rem;
+            }
+
+            .btn-outline-secondary {
+                width: 100%;
+                text-align: center;
+            }
+
+            .text-end {
+                text-align: left !important;
+            }
+
+            .btn-confirm {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -78,7 +191,7 @@
 
             <p class="text-muted mb-4">
                 Controleer hieronder je mandje. Als alles klopt, klik je op
-                <strong>&quot;Bestelling bevestigen&quot;</strong>.
+                <strong>"Bestelling bevestigen"</strong>.
             </p>
 
             <table class="table align-middle mb-4">
