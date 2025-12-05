@@ -44,49 +44,49 @@ public class DataInitializer {
             Product p1 = new Product(
                     "Spring in Action",
                     "Java Spring Boot book",
-                    new BigDecimal("39.99"),
+                    new BigDecimal("4.99"),
                     cat1
             );
 
             Product p2 = new Product(
                     "Draadloze muis",
                     "Simpele draadlooze muis",
-                    new BigDecimal("19.99"),
+                    new BigDecimal("9.99"),
                     cat2
             );
 
             Product g1 = new Product(
                     "Logitech G Pro X Superlight 2",
                     "Ultralichte draadloze gamingmuis met hoge precisie voor competitieve gamers.",
-                    new BigDecimal("169.99"),
+                    new BigDecimal("19.99"),
                     cat3
             );
 
             Product g2 = new Product(
                     "SteelSeries Arctis Nova 7 Wireless",
                     "Comfortabele draadloze gamingheadset met helder geluid en lange batterijduur.",
-                    new BigDecimal("199.99"),
+                    new BigDecimal("29.99"),
                     cat3
             );
 
             Product g3 = new Product(
                     "Razer Huntsman Mini",
                     "Compact 60% mechanisch toetsenbord met optische switches voor snelle respons.",
-                    new BigDecimal("139.99"),
+                    new BigDecimal("14.99"),
                     cat3
             );
 
             Product g4 = new Product(
                     "Corsair MM700 RGB Muismat",
                     "Extra grote RGB-muismat met USB-hub, ideaal voor volledige setup.",
-                    new BigDecimal("79.99"),
+                    new BigDecimal("8.99"),
                     cat3
             );
 
             Product g5 = new Product(
                     "Elgato Stream Deck MK.2",
                     "Programmeerbaar streamdeck voor snelle bediening van scenes, macro’s en acties.",
-                    new BigDecimal("179.99"),
+                    new BigDecimal("24.99"),
                     cat3
             );
 
