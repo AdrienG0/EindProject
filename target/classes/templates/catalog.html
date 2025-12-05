@@ -10,7 +10,277 @@
             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
             crossorigin="anonymous">
 
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
+            color: #f5f5f5;
+        }
+
+        .bg-light {
+            background: linear-gradient(90deg, #8b0f7a, #e01e37) !important;
+        }
+
+
+        .navbar {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .navbar-brand:hover {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-link {
+            color: #f3e8ff !important;
+            font-weight: 500;
+            position: relative;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0.75rem;
+            right: 0.75rem;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff4b7d, #b517ff);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .navbar .btn {
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+
+        .btn-outline-primary.position-relative {
+            border-color: #ff4b7d;
+            color: #ff4b7d;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-outline-primary.position-relative:hover {
+            background: linear-gradient(135deg, #ff4b7d, #b517ff);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .btn-outline-primary .bi-cart {
+            margin-right: 4px;
+        }
+
+        .badge.bg-danger {
+            background: linear-gradient(135deg, #ff0000, #ff4b7d) !important;
+            box-shadow: 0 0 10px rgba(255, 75, 125, 0.8);
+        }
+
+
+        .btn-outline-danger {
+            border-color: #ff4b7d;
+            color: #ff4b7d;
+            background: transparent;
+        }
+
+        .btn-outline-danger:hover {
+            background: #ff4b7d;
+            color: #ffffff;
+        }
+
+
+        .container {
+            max-width: 1140px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff4b7d, #b517ff, transparent);
+            margin: 1.5rem 0 2rem 0;
+        }
+
+
+        .form-label {
+            color: #f3e8ff;
+            font-weight: 600;
+        }
+
+        .form-select,
+        .form-control {
+            background-color: #14141f;
+            border: 1px solid #6d28d9;
+            color: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            background-color: #14141f;
+            border-color: #e11d48;
+            box-shadow: 0 0 0 0.15rem rgba(225, 29, 72, 0.3);
+            color: #ffffff;
+        }
+
+        .form-select option {
+            background-color: #0b0b15;
+            color: #f9fafb;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e11d48, #a21caf);
+            border: none;
+            font-weight: 600;
+            padding: 0.45rem 1.3rem;
+            border-radius: 999px;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #fb7185, #c084fc);
+        }
+
+        .btn-outline-secondary {
+            border-radius: 999px;
+            border-color: #6b7280;
+            color: #e5e7eb;
+            background: transparent;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #374151;
+            color: #ffffff;
+        }
+
+
+        .card {
+            background: radial-gradient(circle at top left, #181827, #050509 60%);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.9);
+            border-color: rgba(236, 72, 153, 0.8);
+        }
+
+        .card-body {
+            padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+        }
+
+        .card-footer {
+            background: linear-gradient(90deg, #020617, #111827);
+            border-top: 1px solid rgba(148, 163, 184, 0.3);
+            padding: 0.75rem 1.25rem 1rem 1.25rem;
+        }
+
+        .card-title {
+            color: #f97316;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .card-subtitle {
+            color: #a5b4fc !important;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            color: #e5e7eb;
+            font-size: 0.9rem;
+        }
+
+
+        .card-footer .fw-bold {
+            color: #f97316;
+            font-size: 1.05rem;
+        }
+
+        .card-footer div span + span,
+        .card-footer div {
+            color: #e5e7eb;
+        }
+
+
+        .card-footer form .form-control-sm {
+            background-color: #020617;
+            border: 1px solid #4c1d95;
+            color: #e5e7eb;
+        }
+
+        .card-footer form .form-control-sm:focus {
+            border-color: #fb7185;
+            box-shadow: 0 0 0 0.15rem rgba(236, 72, 153, 0.35);
+        }
+
+        .card-footer .btn.btn-sm.btn-primary {
+            white-space: nowrap;
+        }
+
+
+        .alert-warning {
+            background: rgba(248, 250, 252, 0.04);
+            border: 1px solid #f97316;
+            color: #fed7aa;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+        }
+
+
+        @media (max-width: 767.98px) {
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 0.75rem;
+            }
+
+            .card-footer form {
+                width: 100%;
+            }
+
+            .card-footer form .form-control-sm {
+                width: 100% !important;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-footer form .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 shadow-sm">
@@ -124,11 +394,9 @@
                                th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
 
-                        <!-- filterparameters bewaren -->
                         <input type="hidden" name="categoryId" th:value="${selectedCategoryId}">
                         <input type="hidden" name="search" th:value="${search}">
 
-                        <!-- aantal stuks -->
                         <input type="number"
                                name="quantity"
                                value="1"
@@ -136,7 +404,6 @@
                                class="form-control form-control-sm me-2"
                                style="width: 70px;">
 
-                        <!-- NIEUW: aantal huurdagen -->
                         <input type="number"
                                name="rentalDays"
                                value="1"
