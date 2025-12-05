@@ -51,7 +51,7 @@ public class DataInitializer {
             Product p2 = new Product(
                     "Draadloze muis",
                     "Simpele draadlooze muis",
-                    new BigDecimal("9.99"),
+                    new BigDecimal("3.00"),
                     cat2
             );
 
@@ -90,6 +90,13 @@ public class DataInitializer {
                     cat3
             );
 
+            Product g6 = new Product(
+                    "Gaming Headset",
+                    "Simpele gaming headset met hoge geluidskwaliteit",
+                    new BigDecimal("12.99"),
+                    cat3
+            );
+
             productRepository.save(p1);
             productRepository.save(p2);
             productRepository.save(g1);
@@ -97,6 +104,7 @@ public class DataInitializer {
             productRepository.save(g3);
             productRepository.save(g4);
             productRepository.save(g5);
+            productRepository.save(g6);
 
             Order order = new Order(user);
             orderRepository.save(order);
