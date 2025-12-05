@@ -95,7 +95,6 @@
             text-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
         }
 
-
         .cart-card {
             border-radius: 16px;
             border: 1px solid rgba(148, 163, 184, 0.25);
@@ -106,7 +105,6 @@
         .cart-card .card-body {
             padding: 1.5rem;
         }
-
 
         .alert-info {
             border-radius: 12px;
@@ -127,7 +125,7 @@
 
 
         .table {
-            color: #e5e7eb;
+            color: #e5e7eb !important;
             margin-bottom: 0;
         }
 
@@ -143,7 +141,7 @@
 
         .table thead th {
             border-bottom: 1px solid rgba(148, 163, 184, 0.5);
-            color: #e5e7eb;
+            color: #f9fafb !important;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -157,13 +155,20 @@
             background: radial-gradient(circle at left, rgba(236, 72, 153, 0.12), transparent 60%);
         }
 
-        strong[th\\:text],
-        strong {
-            color: #f97316;
+
+        .table tbody td,
+        .table tbody th {
+            color: #e5e7eb !important;
         }
 
-        .text-muted {
-            color: #9ca3af !important;
+        .table tbody td strong {
+            color: #facc15 !important;
+        }
+
+        .text-muted,
+        .table tbody td small,
+        .table tbody td .text-muted {
+            color: #cbd5f5 !important;
         }
 
 
@@ -223,6 +228,7 @@
             background: #ef4444;
             color: #ffffff;
         }
+
 
         .btn-back {
             border-radius: 999px;
