@@ -76,6 +76,16 @@ public class CartController {
         return "cart";
     }
 
+    @PostMapping("/remove")
+    public String removeCartItem(@RequestParam("cartItemId") Long cartItemId,
+                                 Authentication authentication) {
+
+        User user = getCurrentUser(authentication);
+        cartService.removeItem(user, cartItemId);
+
+        return "redirect:/cart";
+    }
+
     @PostMapping("/update")
     public String updateCartItem(@RequestParam("cartItemId") Long cartItemId,
                                  @RequestParam("quantity") int quantity,
