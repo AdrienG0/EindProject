@@ -10,6 +10,8 @@ public class CartItem {
 
     private int quantity;
 
+    private int rentalDays;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
@@ -30,6 +32,13 @@ public class CartItem {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public CartItem(User user, Product product, int quantity, int rentalDays) {
+        this.user = user;
+        this.product = product;
+        this.quantity = quantity;
+        this.rentalDays = rentalDays;
     }
 
     public CartItem(User user, Product product, int quantity) {
@@ -72,6 +81,14 @@ public class CartItem {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getRentalDays() {
+        return rentalDays;
+    }
+
+    public void setRentalDays(int rentalDays) {
+        this.rentalDays = rentalDays;
     }
 
     @Override

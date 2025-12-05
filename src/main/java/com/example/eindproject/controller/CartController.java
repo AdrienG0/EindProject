@@ -44,13 +44,14 @@ public class CartController {
     @PostMapping("/add/{productId}")
     public String addToCart(@PathVariable Long productId,
                             @RequestParam(defaultValue = "1") int quantity,
+                            @RequestParam(defaultValue = "1") int rentalDays,
                             @RequestParam(required = false) Long categoryId,
                             @RequestParam(required = false, name = "search") String search,
                             Authentication authentication,
                             RedirectAttributes redirectAttributes) {
 
         User user = getCurrentUser(authentication);
-        cartService.addToCart(user, productId, quantity);
+        cartService.addToCart(user, productId, quantity, rentalDays);
 
         if (categoryId != null) {
             redirectAttributes.addAttribute("categoryId", categoryId);
