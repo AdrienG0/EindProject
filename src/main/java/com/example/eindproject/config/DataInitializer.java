@@ -149,7 +149,7 @@ public class DataInitializer {
             productRepository.save(k1);
             productRepository.save(k2);
             productRepository.save(k3);
-            
+
             Order order = new Order(user);
             orderRepository.save(order);
 
