@@ -10,9 +10,8 @@ De applicatie maakt gebruik van **Spring Boot**, **Thymeleaf** en **Maven** en b
 2. [Technologieën](#technologieën)
 3. [Hoe te runnen](#hoe-te-runnen)
 4. [Functionaliteiten](#functionaliteiten)
-5. [Projectstructuur](#projectstructuur)
-6. [Accounts & rollen](#accounts--rollen)
-7. [Bronnen](#bronnen)
+5. [Gebruik van AI-tools](#Gebruik van AI-tools)
+6. [Bronnen](#bronnen)
 
 ---
 
@@ -80,8 +79,27 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 - Sessies voor winkelmandje.
 - Rolgebaseerde toegang tot adminpagina’s.
 
+## 5. Gebruik van AI-tools
+Tijdens de ontwikkeling van dit project werd ChatGPT gebruikt als ondersteunende tool.
+De AI werd ingezet voor:
+
+- Het verduidelijken van Spring Boot-concepten (MVC-structuur, repositories, services) : https://chatgpt.com/share/693c177c-1460-8012-9b54-ce5fabaf5846 
+- Het opstellen van basisstructuren voor controllers en entity-relaties : https://chatgpt.com/share/693c1888-86b0-8012-9147-e1e9c87decc4 
+- Het helpen begrijpen van foutmeldingen en stacktraces : https://chatgpt.com/share/693c18e8-0578-8012-a177-e2ee33d79b76 
+- Het herstructureren en vereenvoudigen van bestaande code : https://chatgpt.com/share/693c18e8-0578-8012-a177-e2ee33d79b76
+
+### Voorbeeld van gebruikte prompts
+- “Hoe structureer ik een Spring Boot e-commerce applicatie met MVC?”
+- “Hoe werkt Spring Security met rollen USER en ADMIN?”
+- “Waarom krijg ik deze Hibernate error en hoe los ik die op?”
+- “Hoe implementeer ik een winkelmandje met een ManyToOne-relatie?”
+- “Hoe kan ik mijn login- en registerpagina visueel verbeteren?”
+
+De gegenereerde code werd **altijd nagekeken, aangepast en geïntegreerd** in het project.
+Alle finale beslissingen, logica en integratie zijn door mij uitgevoerd.
+
 ---
-## 5. Bronnen
+## 6. Bronnen
 
 ### 📘 Documentatie
 - Spring Boot officiële documentatie
@@ -97,13 +115,10 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 - Artikels over beveiliging en MVC-lagen
 - Blogs over Spring-architectuur
 
-### 🤖 AI-conversaties
-- ChatGPT voor:
-    - uitleg over controller-service-repository structuur,
-    - hulp bij debuggen,
-    - verbetering van pagina-styling,
-    - securityconfiguratie,
-    - Maken van de README.md
+### 📂 Broncode  
+De volledige broncode van dit project is beschikbaar via GitHub:  
+
+
 
 
 
