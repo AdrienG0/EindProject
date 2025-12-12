@@ -22,7 +22,6 @@ public class GlobalCartAdvice {
 
     @ModelAttribute("cartCount")
     public int cartCount(Authentication authentication) {
-        // Niet ingelogd? Toon 0
         if (authentication == null || !authentication.isAuthenticated()) {
             return 0;
         }

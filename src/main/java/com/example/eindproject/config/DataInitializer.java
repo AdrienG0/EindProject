@@ -36,10 +36,14 @@ public class DataInitializer {
             Category cat1 = new Category("Boeken");
             Category cat2 = new Category("Electronica");
             Category cat3 = new Category("Gaming accessoires");
+            Category cat4 = new Category("Lampen");
+            Category cat5 = new Category("Kabels");
 
             categoryRepository.save(cat1);
             categoryRepository.save(cat2);
             categoryRepository.save(cat3);
+            categoryRepository.save(cat4);
+            categoryRepository.save(cat5);
 
             Product p1 = new Product(
                     "Spring in Action",
@@ -50,7 +54,7 @@ public class DataInitializer {
 
             Product p2 = new Product(
                     "Draadloze muis",
-                    "Simpele draadlooze muis",
+                    "Simpele draadloze muis",
                     new BigDecimal("3.00"),
                     cat2
             );
@@ -97,6 +101,41 @@ public class DataInitializer {
                     cat3
             );
 
+            Product l1 = new Product(
+                    "Bureau LED Lamp",
+                    "Energiezuinige LED bureaulamp met instelbare helderheid.",
+                    new BigDecimal("9.99"),
+                    cat4
+            );
+
+            Product l2 = new Product(
+                    "RGB Gaming Lamp",
+                    "Sfeervolle RGB lamp ideaal voor een gaming setup.",
+                    new BigDecimal("11.99"),
+                    cat4
+            );
+
+            Product k1 = new Product(
+                    "USB-C Oplaadkabel",
+                    "Snelle USB-C kabel voor opladen en dataoverdracht.",
+                    new BigDecimal("2.99"),
+                    cat5
+            );
+
+            Product k2 = new Product(
+                    "HDMI Kabel 2m",
+                    "HDMI kabel geschikt voor 4K beeldkwaliteit.",
+                    new BigDecimal("4.49"),
+                    cat5
+            );
+
+            Product k3 = new Product(
+                    "Ethernet Kabel Cat6",
+                    "Snelle netwerkkabel voor stabiele internetverbinding.",
+                    new BigDecimal("3.99"),
+                    cat5
+            );
+
             productRepository.save(p1);
             productRepository.save(p2);
             productRepository.save(g1);
@@ -105,7 +144,12 @@ public class DataInitializer {
             productRepository.save(g4);
             productRepository.save(g5);
             productRepository.save(g6);
-
+            productRepository.save(l1);
+            productRepository.save(l2);
+            productRepository.save(k1);
+            productRepository.save(k2);
+            productRepository.save(k3);
+            
             Order order = new Order(user);
             orderRepository.save(order);
 
