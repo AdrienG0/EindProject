@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Winkelmandje</title>
+    <title>Mijn reservaties</title>
 
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -10,287 +10,258 @@
 
     <style>
 
+        :root {
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+
+            --primary: #1e3a8a;
+            --primary-2: #1d4ed8;
+            --border: #e5e7eb;
+
+            --shadow: 0 12px 28px rgba(17, 24, 39, 0.10);
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             min-height: 100vh;
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
-            color: #f5f5f5;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at 10% 10%, #eef2ff 0, var(--bg) 45%, #eef2ff 100%);
+            color: var(--text);
         }
 
         .container {
-            max-width: 1140px;
-        }
-
-
-        .bg-light {
-            background: linear-gradient(90deg, #8b0f7a, #e01e37) !important;
+            max-width: 1120px;
         }
 
         .navbar {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            background: var(--surface) !important;
+            border-bottom: 1px solid var(--border);
         }
 
         .navbar-brand {
-            color: #ffffff !important;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+            color: var(--text) !important;
+            font-weight: 900;
+            letter-spacing: 0.2px;
         }
 
-        .navbar-brand:hover {
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        .brand-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.18);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
         }
 
         .nav-link {
-            color: #f3e8ff !important;
-            font-weight: 500;
-            position: relative;
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
+            color: #374151 !important;
+            font-weight: 800;
+            border-radius: 10px;
+            padding: 8px 10px !important;
         }
 
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0.75rem;
-            right: 0.75rem;
-            bottom: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ff4b7d, #b517ff);
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.2s ease-out;
+        .nav-link:hover {
+            background: #f3f4f6;
         }
-
-        .nav-link:hover::after {
-            transform: scaleX(1);
-        }
-
-        .btn-outline-danger.btn-sm {
-            border-radius: 999px;
-            border-color: #ff4b7d;
-            color: #ff4b7d;
-            background: transparent;
-            font-weight: 600;
-        }
-
-        .btn-outline-danger.btn-sm:hover {
-            background: #ff4b7d;
-            color: #ffffff;
-        }
-
 
         .cart-wrapper {
-            margin-top: 60px;
+            margin-top: 34px;
             margin-bottom: 60px;
         }
 
         .cart-title {
-            font-weight: 800;
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: #f9fafb;
-            text-shadow: 0 0 10px rgba(15, 23, 42, 0.9);
+            font-weight: 900;
+            font-size: 1.7rem;
+            margin-bottom: 6px;
+        }
+
+        .cart-subtitle {
+            color: var(--muted);
+            margin-bottom: 18px;
         }
 
         .cart-card {
-            border-radius: 16px;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            background: radial-gradient(circle at top left, #181827, #050509 60%);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            box-shadow: var(--shadow);
         }
 
         .cart-card .card-body {
-            padding: 1.5rem;
+            padding: 20px;
         }
-
-        .alert-info {
-            border-radius: 12px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid #38bdf8;
-            color: #e0f2fe;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
-        }
-
-        .alert-link {
-            color: #f97316;
-            font-weight: 600;
-        }
-
-        .alert-link:hover {
-            color: #fed7aa;
-        }
-
 
         .table {
-            color: #e5e7eb !important;
+            color: var(--text) !important;
             margin-bottom: 0;
         }
 
         .table > :not(caption) > * > * {
-            padding: 14px 12px;
+            padding: 12px 10px;
             vertical-align: middle;
             background-color: transparent;
         }
 
-        .table thead {
-            background: linear-gradient(90deg, rgba(15,23,42,0.95), rgba(24,24,39,0.95));
-        }
-
         .table thead th {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.5);
-            color: #f9fafb !important;
+            border-bottom: 1px solid var(--border);
+            color: #374151 !important;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
+            background: #fbfdff;
         }
 
         .table tbody tr {
-            border-color: rgba(51, 65, 85, 0.7);
+            border-color: var(--border);
         }
 
         .table tbody tr:hover {
-            background: radial-gradient(circle at left, rgba(236, 72, 153, 0.12), transparent 60%);
+            background: rgba(30, 58, 138, 0.04);
         }
 
-
-        .table tbody td,
-        .table tbody th {
-            color: #e5e7eb !important;
+        .item-name {
+            font-weight: 900;
+            color: var(--text);
+            display: inline-block;
+            margin-bottom: 2px;
         }
 
-        .table tbody td strong {
-            color: #facc15 !important;
-        }
-
-        .text-muted,
-        .table tbody td small,
-        .table tbody td .text-muted {
-            color: #cbd5f5 !important;
-        }
-
-
-        .badge-price {
+        .item-desc {
+            color: var(--muted);
             font-size: 0.9rem;
-            padding: 6px 12px;
-            background: linear-gradient(135deg, #e11d48, #a21caf);
-            color: white;
-            border-radius: 999px;
-            box-shadow: 0 0 12px rgba(236, 72, 153, 0.7);
         }
 
+        .price-pill {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(30, 58, 138, 0.20);
+            background: rgba(30, 58, 138, 0.06);
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
 
         .qty-input {
-            width: 80px;
+            width: 86px;
             text-align: center;
-            background-color: #020617;
-            border: 1px solid #4c1d95;
-            color: #e5e7eb;
-            border-radius: 999px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
         }
 
         .qty-input:focus {
-            border-color: #fb7185;
-            box-shadow: 0 0 0 0.15rem rgba(236, 72, 153, 0.35);
-            background-color: #020617;
-            color: #ffffff;
+            outline: none;
+            border-color: rgba(30, 58, 138, 0.55);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.12);
         }
 
-        .update-btn {
-            border-radius: 999px;
-            padding: 4px 12px;
-            font-size: 0.8rem;
-            margin-left: 8px;
-            border-color: #fb7185;
-            color: #fb7185;
-            background: transparent;
-            font-weight: 600;
+        .btn-primary {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 10px 16px;
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.14);
         }
 
-        .update-btn:hover {
-            background: linear-gradient(135deg, #fb7185, #c084fc);
-            color: #ffffff;
-            border-color: transparent;
+        .btn-primary:hover {
+            background: var(--primary-2) !important;
+            border-color: var(--primary-2) !important;
         }
 
-        .btn-outline-danger.btn-sm,
+        .btn-outline-secondary {
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: 800;
+            border-color: rgba(17, 24, 39, 0.18) !important;
+            color: #374151 !important;
+            background: transparent !important;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #f3f4f6 !important;
+        }
+
         .btn-outline-danger {
-            border-radius: 999px;
-            border-color: #ef4444;
-            color: #fecaca;
-            background: transparent;
-            font-weight: 600;
+            border-radius: 12px;
+            font-weight: 800;
         }
 
-        .btn-outline-danger:hover {
-            background: #ef4444;
-            color: #ffffff;
+        .btn-outline-primary {
+            border-radius: 12px;
+            font-weight: 800;
+            border-color: rgba(30, 58, 138, 0.40) !important;
+            color: var(--primary) !important;
+            background: transparent !important;
         }
 
-
-        .btn-back {
-            border-radius: 999px;
-            border-color: #6b7280;
-            color: #e5e7eb;
-            background: transparent;
-            font-weight: 500;
+        .btn-outline-primary:hover {
+            background: rgba(30, 58, 138, 0.08) !important;
         }
 
-        .btn-back:hover {
-            background: #374151;
-            color: #ffffff;
+        .btn-sm {
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+        }
+
+        .alert-info {
+            border-radius: var(--radius);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            box-shadow: var(--shadow);
+        }
+
+        .alert-link {
+            color: var(--primary);
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .alert-link:hover {
+            text-decoration: underline;
         }
 
         .total-box {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #f9fafb;
+            font-size: 1.1rem;
+            font-weight: 900;
         }
 
         .total-box span {
-            color: #f97316;
+            color: var(--primary);
         }
-
-        .btn-success {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            font-weight: 600;
-            border-radius: 999px !important;
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
-        }
-
-        .btn-success:hover {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-        }
-
 
         @media (max-width: 767.98px) {
             .cart-title {
-                font-size: 1.6rem;
+                font-size: 1.45rem;
             }
 
             .cart-card .card-body {
-                padding: 1.1rem;
+                padding: 16px;
             }
 
             .d-flex.justify-content-between.align-items-center.mt-4 {
                 flex-direction: column;
                 align-items: stretch !important;
-                gap: 1rem;
-            }
-
-            .btn-back {
-                width: 100%;
-                text-align: center;
+                gap: 12px;
             }
 
             .text-end {
                 text-align: left !important;
             }
 
-            .btn-success {
+            .btn-primary,
+            .btn-outline-secondary {
                 width: 100%;
             }
         }
@@ -298,9 +269,12 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/home">Mijn Webshop</a>
+        <a class="navbar-brand fw-bold" href="/home">
+            <span class="brand-badge" aria-hidden="true"></span>
+            Uitleensysteem
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -317,9 +291,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/catalog">Catalogus</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/cart">Mijn reservaties</a>
+                </li>
             </ul>
 
-            <form th:action="@{/logout}" method="post" class="d-flex">
+            <form th:action="@{/logout}" method="post" class="d-flex mb-0">
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}"/>
@@ -333,10 +310,14 @@
 
 <div class="container cart-wrapper">
 
-    <h1 class="cart-title">Je winkelmandje (verhuur)</h1>
+    <h1 class="cart-title">Mijn reservaties</h1>
+    <p class="cart-subtitle">
+        Beheer je geselecteerde materialen. Pas aantallen aan of verwijder items.
+    </p>
 
     <div th:if="${#lists.isEmpty(items)}" class="alert alert-info">
-        Je mandje is nog leeg. <a href="/catalog" class="alert-link">Ga terug naar de catalogus.</a>
+        Je hebt nog geen materialen toegevoegd.
+        <a href="/catalog" class="alert-link">Ga naar de catalogus</a>.
     </div>
 
     <div th:if="${!#lists.isEmpty(items)}" class="card cart-card">
@@ -345,11 +326,11 @@
             <table class="table align-middle">
                 <thead>
                 <tr>
-                    <th style="width: 30%">Product</th>
+                    <th style="width: 32%">Materiaal</th>
                     <th class="text-center">Aantal</th>
                     <th class="text-center">Dagen</th>
-                    <th class="text-end">Prijs / dag</th>
-                    <th class="text-end">Totaal (huur)</th>
+                    <th class="text-end">Kost / dag</th>
+                    <th class="text-end">Subtotaal</th>
                     <th class="text-end">Acties</th>
                 </tr>
                 </thead>
@@ -357,8 +338,8 @@
                 <tbody>
                 <tr th:each="item : ${items}">
                     <td>
-                        <strong th:text="${item.product.name}">Productnaam</strong><br>
-                        <small class="text-muted" th:text="${item.product.description}">Beschrijving</small>
+                        <span class="item-name" th:text="${item.product.name}">Materiaal</span><br>
+                        <span class="item-desc" th:text="${item.product.description}">Beschrijving</span>
                     </td>
 
                     <td class="text-center">
@@ -378,7 +359,7 @@
                                    th:value="${item.quantity}" />
 
                             <button type="submit"
-                                    class="btn btn-sm btn-outline-primary update-btn">
+                                    class="btn btn-sm btn-outline-primary ms-2">
                                 Opslaan
                             </button>
                         </form>
@@ -389,7 +370,7 @@
                     </td>
 
                     <td class="text-end">
-                        <span class="badge-price"
+                        <span class="price-pill"
                               th:text="${item.product.price} + ' € / dag'">0.00 € / dag</span>
                     </td>
 
@@ -414,24 +395,23 @@
                 </tbody>
             </table>
 
-
             <div class="d-flex justify-content-between align-items-center mt-4">
-
-                <a href="/catalog" class="btn btn-outline-secondary btn-back">
-                    ← Verder shoppen
+                <a href="/catalog" class="btn btn-outline-secondary">
+                    ← Terug naar catalogus
                 </a>
 
                 <div class="text-end">
                     <div class="total-box mb-3">
-                        Totaal (huur):
+                        Totaal:
                         <span th:text="${total} + ' €'">0.00 €</span>
                     </div>
 
-                    <a href="/cart/checkout" class="btn btn-success px-4 py-2">
-                        Ga naar checkout →
+                    <a href="/cart/checkout" class="btn btn-primary px-4 py-2">
+                        Reservatie bevestigen →
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
