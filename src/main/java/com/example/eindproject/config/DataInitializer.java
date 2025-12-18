@@ -2,6 +2,7 @@ package com.example.eindproject.config;
 
 import com.example.eindproject.model.*;
 import com.example.eindproject.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,12 @@ import java.math.BigDecimal;
 
 @Configuration
 public class DataInitializer {
+
+    @Value("${app.admin.password}")
+    private String adminPassword;
+
+    @Value("${app.user.password}")
+    private String userPassword;
 
     @Bean
     CommandLineRunner initData(
@@ -24,12 +31,12 @@ public class DataInitializer {
         return args -> {
 
             User user = new User("Adrien Student", "adrien@student.ehb.be");
-            user.setPassword(passwordEncoder.encode("Password123"));
+            user.setPassword(passwordEncoder.encode(userPassword));
             user.setRole("USER");
             userRepository.save(user);
 
             User admin = new User("Admin", "admin@ehb.be");
-            admin.setPassword(passwordEncoder.encode("Admin123"));
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRole("ADMIN");
             userRepository.save(admin);
 
