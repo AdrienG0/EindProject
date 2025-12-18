@@ -2,178 +2,210 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Home - Mijn Webshop</title>
+    <title>Home - Uitleensysteem</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
 
+        :root {
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+
+            --primary: #1e3a8a;
+            --primary-2: #1d4ed8;
+            --border: #e5e7eb;
+
+            --shadow: 0 12px 28px rgba(17, 24, 39, 0.10);
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
-            color: #f5f5f5;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at 10% 10%, #eef2ff 0, var(--bg) 45%, #eef2ff 100%);
+            color: var(--text);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1120px;
         }
-
 
         .navbar {
-            background: linear-gradient(90deg, #8b0f7a, #e01e37) !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            background: var(--surface) !important;
+            border-bottom: 1px solid var(--border);
         }
 
-        .navbar-brand {
-            color: white !important;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .navbar .navbar-brand {
+            color: var(--text) !important;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.18);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
         }
 
         .nav-link {
-            color: #f3e8ff !important;
-            font-weight: 500;
-            position: relative;
+            color: #374151 !important;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 8px 10px !important;
         }
 
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ff4b7d, #b517ff);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+        .nav-link:hover {
+            background: #f3f4f6;
         }
 
-        .nav-link:hover::after {
-            transform: scaleX(1);
-        }
-
-        .btn-outline-danger {
-            border-radius: 999px;
-            border-color: #ff4b7d;
-            color: #ff4b7d;
-            font-weight: 600;
-        }
-
-        .btn-outline-danger:hover {
-            background: #ff4b7d;
-            color: #fff;
-        }
-
-
-        section.hero {
-            padding: 70px 0;
-            background: rgba(0,0,0,0.25);
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.6);
-        }
-
-        .hero h1 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            color: #f9fafb;
-            text-shadow: 0 0 15px rgba(0,0,0,0.7);
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
+        .nav-link.active {
+            color: var(--primary) !important;
+            background: rgba(30, 58, 138, 0.08);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #e11d48, #a21caf);
-            border: none;
-            font-weight: 600;
-            border-radius: 999px;
-            padding: 10px 22px;
-            box-shadow: 0 0 12px rgba(236,72,153,0.5);
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 10px 16px;
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.14);
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #fb7185, #c084fc);
+            background: var(--primary-2) !important;
+            border-color: var(--primary-2) !important;
         }
 
         .btn-outline-primary {
-            border-radius: 999px;
-            border-color: #c084fc;
-            color: #c084fc;
-            padding: 10px 22px;
+            border-color: rgba(30, 58, 138, 0.40) !important;
+            color: var(--primary) !important;
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 10px 16px;
         }
 
         .btn-outline-primary:hover {
-            background: #c084fc;
-            color: #fff;
+            background: rgba(30, 58, 138, 0.08) !important;
         }
 
+        .btn-outline-danger {
+            border-radius: 12px;
+            font-weight: 800;
+        }
+
+        section.hero {
+            padding: 54px 0;
+        }
+
+        .hero-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 26px;
+        }
+
+        .hero h1 {
+            font-size: 2.05rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+        }
+
+        .hero-images img {
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            object-fit: cover;
+        }
 
         .info-card {
-            background: rgba(20,20,30,0.9);
-            border: 1px solid rgba(148,163,184,0.25);
-            padding: 25px;
-            border-radius: 14px;
-            color: #e2e8f0;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px;
+            height: 100%;
         }
 
         .info-card h3 {
-            color: #f97316;
-            font-weight: 700;
+            margin: 0 0 8px 0;
+            font-size: 1.05rem;
+            font-weight: 900;
         }
 
+        .info-card p {
+            margin: 0;
+            color: var(--muted);
+        }
 
         .card {
-            background: radial-gradient(circle at top left, #181827, #050509 60%);
-            border: 1px solid rgba(148,163,184,0.25);
-            color: #e5e7eb;
-            border-radius: 14px;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.65);
+            border: 1px solid var(--border) !important;
+            border-radius: var(--radius) !important;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            height: 190px;
+            object-fit: cover;
         }
 
         .card-title {
-            color: #facc15 !important;
+            font-weight: 900;
+            color: var(--text);
         }
 
         .card-text {
-            color: #cbd5e1 !important;
+            color: var(--muted) !important;
         }
 
         .card-footer {
-            background: rgba(0,0,0,0.3);
-            border-top: 1px solid rgba(148,163,184,0.25);
+            background: #fbfdff;
+            border-top: 1px solid var(--border) !important;
         }
 
-        .card-footer span {
-            color: #f97316;
-            font-weight: 700;
+        .price-tag {
+            font-weight: 900;
+            color: var(--primary);
         }
-
-        .card-footer .btn-primary {
-            padding: 6px 14px;
-        }
-
 
         footer {
-            background: rgba(10,10,20,0.8);
-            border-top: 1px solid rgba(148,163,184,0.25);
-            color: #9ca3af;
-            padding: 20px 0;
+            margin-top: 34px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            padding: 18px 0;
         }
-
     </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/home">Mijn Webshop</a>
+        <a class="navbar-brand fw-bold" href="/home">
+            <span class="brand-badge" aria-hidden="true"></span>
+            Uitleensysteem
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#mainNavbar" aria-controls="mainNavbar"
@@ -191,11 +223,11 @@
                     <a class="nav-link" href="/catalog">Catalogus</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/cart">Winkelmandje</a>
+                    <a class="nav-link" href="/cart">Reservaties</a>
                 </li>
             </ul>
 
-            <form th:action="@{/logout}" method="post">
+            <form th:action="@{/logout}" method="post" class="mb-0">
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}"/>
@@ -205,70 +237,71 @@
     </div>
 </nav>
 
-<section class="hero py-5">
+<section class="hero">
     <div class="container">
-        <div class="row align-items-center g-4">
+        <div class="hero-card">
+            <div class="row align-items-center g-4">
 
-            <div class="col-md-6">
-                <h1 class="display-5 fw-bold mb-3">Welkom bij jouw online catalogus</h1>
+                <div class="col-md-6">
+                    <h1>Welkom bij het uitleensysteem</h1>
 
-                <p class="lead mb-4">
-                    Deze webshop is gebouwd met Spring Boot & Thymeleaf.
-                    Verken producten, voeg ze toe aan je mandje en rond eenvoudig je bestelling af.
-                </p>
+                    <p class="lead">
+                        Reserveer materiaal voor projecten en lessen. Bekijk de catalogus, kies je items
+                        en beheer je reservaties in één overzicht.
+                    </p>
 
-                <div class="d-flex gap-2">
-                    <a href="/catalog" class="btn btn-primary btn-lg">Bekijk catalogus</a>
-                    <a href="/cart" class="btn btn-outline-primary btn-lg">Ga naar winkelmandje</a>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="row g-3">
-                    <div class="col-6">
-                        <img th:src="@{/img/Boek.jpg}" class="img-fluid rounded shadow" alt="Boek">
-                    </div>
-                    <div class="col-6">
-                        <img th:src="@{/img/Elektronica.jpg}" class="img-fluid rounded shadow mb-3" alt="Elektronica">
-                        <img th:src="@{/img/gamingaccessories.jpg}" class="img-fluid rounded shadow" alt="Accessoires">
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="/catalog" class="btn btn-primary btn-lg">Naar catalogus</a>
+                        <a href="/cart" class="btn btn-outline-primary btn-lg">Mijn reservaties</a>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-md-6 hero-images">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <img th:src="@{/img/Boek.jpg}" class="img-fluid" alt="Boek">
+                        </div>
+                        <div class="col-6">
+                            <img th:src="@{/img/Elektronica.jpg}" class="img-fluid mb-3" alt="Elektronica">
+                            <img th:src="@{/img/gamingaccessories.jpg}" class="img-fluid" alt="Materiaal">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </section>
 
 <section class="py-5">
     <div class="container">
-        <h2 class="h3 fw-bold mb-4">Wat kan je op deze website doen?</h2>
+        <h2 class="h4 fw-bold mb-4">Wat kan je hier doen?</h2>
 
         <div class="row g-4">
 
             <div class="col-md-4">
-                <div class="info-card h-100">
-                    <h3>Producten ontdekken</h3>
+                <div class="info-card">
+                    <h3>Materiaal bekijken</h3>
                     <p>
-                        Bekijk alle producten in de catalogus, filter op categorie
-                        en zoek op naam.
+                        Bekijk beschikbare items per categorie en controleer snel welke materialen je kan reserveren.
                     </p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="info-card h-100">
-                    <h3>Winkelmandje beheren</h3>
+                <div class="info-card">
+                    <h3>Reservatie samenstellen</h3>
                     <p>
-                        Voeg producten toe, wijzig aantallen of verwijder items wanneer je wil.
+                        Voeg items toe aan je overzicht, pas aantallen aan en verwijder materiaal wanneer nodig.
                     </p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="info-card h-100">
-                    <h3>Bestelling afronden</h3>
+                <div class="info-card">
+                    <h3>Aanvraag bevestigen</h3>
                     <p>
-                        Bekijk het overzicht van je order, bevestig en voltooi de reservatie.
+                        Bevestig je reservatie en krijg een duidelijk overzicht van de gekozen materialen.
                     </p>
                 </div>
             </div>
@@ -279,7 +312,7 @@
 
 <section class="py-5">
     <div class="container">
-        <h2 class="h3 fw-bold mb-4">Populaire producten</h2>
+        <h2 class="h4 fw-bold mb-4">Veel gekozen materiaal</h2>
 
         <div class="row g-4">
 
@@ -289,11 +322,11 @@
                     <div class="card-body">
                         <h5 class="card-title mb-1">Spring in Action</h5>
                         <p class="card-text">
-                            Java Spring Boot boek voor moderne applicatiebouwers.
+                            Referentieboek voor Spring Boot (voor studie en projecten).
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span>4.99 € / dag</span>
+                        <span class="price-tag">4.99 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
@@ -305,11 +338,11 @@
                     <div class="card-body">
                         <h5 class="card-title mb-1">Draadloze muis</h5>
                         <p class="card-text">
-                            Simpele en betrouwbare draadloze muis voor dagelijks gebruik.
+                            Basis randapparatuur voor tijdelijk gebruik in lokaal of projectruimte.
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span>3.00 € / dag</span>
+                        <span class="price-tag">3.00 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
@@ -317,15 +350,15 @@
 
             <div class="col-md-4">
                 <div class="card h-100">
-                    <img th:src="@{/img/GamingHeadset.webp}" class="card-img-top" alt="Gaming headset">
+                    <img th:src="@{/img/GamingHeadset.webp}" class="card-img-top" alt="Headset">
                     <div class="card-body">
-                        <h5 class="card-title mb-1">Gaming headset</h5>
+                        <h5 class="card-title mb-1">Headset</h5>
                         <p class="card-text">
-                            Comfortabel en helder geluid — perfect voor gaming & online meetings.
+                            Handig voor online lessen, calls of opname-opdrachten.
                         </p>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span>12.99 € / dag</span>
+                        <span class="price-tag">12.99 € / dag</span>
                         <a href="/catalog" class="btn btn-sm btn-primary">Bekijk</a>
                     </div>
                 </div>
@@ -335,9 +368,9 @@
     </div>
 </section>
 
-<footer class="py-4">
+<footer>
     <div class="container text-center">
-        <small>&copy; 2025 Mijn Webshop - Eindproject Spring Boot</small>
+        <small>&copy; 2025 Uitleensysteem - Eindproject Spring Boot</small>
     </div>
 </footer>
 
