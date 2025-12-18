@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Productcatalogus</title>
+    <title>Catalogus - Uitleensysteem</title>
 
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -12,258 +12,233 @@
 
     <style>
 
+        :root {
+            --bg: #f6f8fb;
+            --surface: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+
+            --primary: #1e3a8a;
+            --primary-2: #1d4ed8;
+            --border: #e5e7eb;
+
+            --shadow: 0 12px 28px rgba(17, 24, 39, 0.10);
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             min-height: 100vh;
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: radial-gradient(circle at top left, #4b0b5f 0, #09090f 35%, #000000 100%);
-            color: #f5f5f5;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at 10% 10%, #eef2ff 0, var(--bg) 45%, #eef2ff 100%);
+            color: var(--text);
         }
 
-        .bg-light {
-            background: linear-gradient(90deg, #8b0f7a, #e01e37) !important;
+        .container {
+            max-width: 1120px;
         }
-
 
         .navbar {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            background: var(--surface) !important;
+            border-bottom: 1px solid var(--border);
         }
 
         .navbar-brand {
-            color: #ffffff !important;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+            color: var(--text) !important;
+            font-weight: 900;
+            letter-spacing: 0.2px;
         }
 
-        .navbar-brand:hover {
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+        .brand-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.18);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
         }
 
         .nav-link {
-            color: #f3e8ff !important;
-            font-weight: 500;
-            position: relative;
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
+            color: #374151 !important;
+            font-weight: 800;
+            border-radius: 10px;
+            padding: 8px 10px !important;
         }
 
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0.75rem;
-            right: 0.75rem;
-            bottom: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ff4b7d, #b517ff);
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.2s ease-out;
+        .nav-link:hover {
+            background: #f3f4f6;
         }
 
-        .nav-link:hover::after {
-            transform: scaleX(1);
+        .btn-primary {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            font-weight: 800;
+            border-radius: 12px;
+            padding: 10px 16px;
+            box-shadow: 0 10px 18px rgba(30, 58, 138, 0.14);
         }
 
-        .navbar .btn {
-            border-radius: 999px;
-            font-weight: 600;
+        .btn-primary:hover {
+            background: var(--primary-2) !important;
+            border-color: var(--primary-2) !important;
         }
 
-
-        .btn-outline-primary.position-relative {
-            border-color: #ff4b7d;
-            color: #ff4b7d;
-            background: rgba(0, 0, 0, 0.25);
+        .btn-outline-secondary {
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: 800;
+            border-color: rgba(17, 24, 39, 0.18) !important;
+            color: #374151 !important;
+            background: transparent !important;
         }
 
-        .btn-outline-primary.position-relative:hover {
-            background: linear-gradient(135deg, #ff4b7d, #b517ff);
-            color: #ffffff;
-            border-color: transparent;
+        .btn-outline-secondary:hover {
+            background: #f3f4f6 !important;
         }
 
-        .btn-outline-primary .bi-cart {
-            margin-right: 4px;
+        .btn-outline-danger {
+            border-radius: 12px;
+            font-weight: 800;
+        }
+
+        .btn-outline-primary {
+            border-radius: 12px;
+            font-weight: 800;
+            border-color: rgba(30, 58, 138, 0.40) !important;
+            color: var(--primary) !important;
+            background: transparent !important;
+        }
+
+        .btn-outline-primary:hover {
+            background: rgba(30, 58, 138, 0.08) !important;
         }
 
         .badge.bg-danger {
-            background: linear-gradient(135deg, #ff0000, #ff4b7d) !important;
-            box-shadow: 0 0 10px rgba(255, 75, 125, 0.8);
+            background: var(--primary) !important;
         }
 
-
-        .btn-outline-danger {
-            border-color: #ff4b7d;
-            color: #ff4b7d;
-            background: transparent;
+        .page-title {
+            font-weight: 900;
+            font-size: 1.7rem;
+            margin: 22px 0 6px;
         }
 
-        .btn-outline-danger:hover {
-            background: #ff4b7d;
-            color: #ffffff;
+        .page-subtitle {
+            color: var(--muted);
+            margin-bottom: 18px;
         }
 
+        .filter-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
 
-        .container {
-            max-width: 1140px;
+        .form-label {
+            color: #374151;
+            font-weight: 800;
+        }
+
+        .form-select,
+        .form-control {
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            border-color: rgba(30, 58, 138, 0.55);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.12);
         }
 
         hr {
             border: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, #ff4b7d, #b517ff, transparent);
-            margin: 1.5rem 0 2rem 0;
+            background: var(--border);
+            margin: 18px 0 22px 0;
         }
-
-
-        .form-label {
-            color: #f3e8ff;
-            font-weight: 600;
-        }
-
-        .form-select,
-        .form-control {
-            background-color: #14141f;
-            border: 1px solid #6d28d9;
-            color: #f9fafb;
-            border-radius: 8px;
-        }
-
-        .form-select:focus,
-        .form-control:focus {
-            background-color: #14141f;
-            border-color: #e11d48;
-            box-shadow: 0 0 0 0.15rem rgba(225, 29, 72, 0.3);
-            color: #ffffff;
-        }
-
-        .form-select option {
-            background-color: #0b0b15;
-            color: #f9fafb;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #e11d48, #a21caf);
-            border: none;
-            font-weight: 600;
-            padding: 0.45rem 1.3rem;
-            border-radius: 999px;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #fb7185, #c084fc);
-        }
-
-        .btn-outline-secondary {
-            border-radius: 999px;
-            border-color: #6b7280;
-            color: #e5e7eb;
-            background: transparent;
-        }
-
-        .btn-outline-secondary:hover {
-            background: #374151;
-            color: #ffffff;
-        }
-
 
         .card {
-            background: radial-gradient(circle at top left, #181827, #050509 60%);
-            border-radius: 16px;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
             overflow: hidden;
-            transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.9);
-            border-color: rgba(236, 72, 153, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 18px 35px rgba(17, 24, 39, 0.12);
         }
 
         .card-body {
-            padding: 1.25rem 1.25rem 0.75rem 1.25rem;
-        }
-
-        .card-footer {
-            background: linear-gradient(90deg, #020617, #111827);
-            border-top: 1px solid rgba(148, 163, 184, 0.3);
-            padding: 0.75rem 1.25rem 1rem 1.25rem;
+            padding: 16px;
         }
 
         .card-title {
-            color: #f97316;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.35rem;
+            color: var(--text);
+            font-size: 1.05rem;
+            font-weight: 900;
+            margin-bottom: 6px;
         }
 
         .card-subtitle {
-            color: #a5b4fc !important;
-            font-size: 0.9rem;
+            color: var(--muted) !important;
+            font-size: 0.88rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
         }
 
         .card-text {
-            color: #e5e7eb;
-            font-size: 0.9rem;
+            color: var(--muted);
+            font-size: 0.95rem;
         }
 
-
-        .card-footer .fw-bold {
-            color: #f97316;
-            font-size: 1.05rem;
+        .card-footer {
+            background: #fbfdff;
+            border-top: 1px solid var(--border);
+            padding: 14px 16px;
         }
 
-        .card-footer div span + span,
-        .card-footer div {
-            color: #e5e7eb;
+        .price {
+            font-weight: 900;
+            color: var(--primary);
         }
 
-
-        .card-footer form .form-control-sm {
-            background-color: #020617;
-            border: 1px solid #4c1d95;
-            color: #e5e7eb;
+        .card-footer .form-control-sm {
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
         }
 
-        .card-footer form .form-control-sm:focus {
-            border-color: #fb7185;
-            box-shadow: 0 0 0 0.15rem rgba(236, 72, 153, 0.35);
+        .card-footer .form-control-sm:focus {
+            border-color: rgba(30, 58, 138, 0.55);
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.12);
         }
-
-        .card-footer .btn.btn-sm.btn-primary {
-            white-space: nowrap;
-        }
-
 
         .alert-warning {
-            background: rgba(248, 250, 252, 0.04);
-            border: 1px solid #f97316;
-            color: #fed7aa;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
-
         @media (max-width: 767.98px) {
-            .navbar-brand {
-                font-size: 1.1rem;
-            }
-
-            .card-body {
-                padding: 1rem;
-            }
-
             .card-footer {
                 flex-direction: column;
                 align-items: flex-start !important;
-                gap: 0.75rem;
+                gap: 12px;
             }
 
             .card-footer form {
@@ -272,21 +247,23 @@
 
             .card-footer form .form-control-sm {
                 width: 100% !important;
-                margin-bottom: 0.5rem;
             }
 
             .card-footer form .btn {
                 width: 100%;
-                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 shadow-sm">
+
+<nav class="navbar navbar-expand-lg navbar-light mb-4">
     <div class="container">
 
-        <a class="navbar-brand fw-bold" href="/home">Mijn Webshop</a>
+        <a class="navbar-brand fw-bold" href="/home">
+            <span class="brand-badge" aria-hidden="true"></span>
+            Uitleensysteem
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -299,9 +276,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/home">Home</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/catalog">Catalogus</a>
+                </li>
             </ul>
 
             <a href="/cart" class="btn btn-outline-primary position-relative me-2">
+                <!-- cart icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-cart" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1
@@ -320,7 +301,7 @@
                 </span>
             </a>
 
-            <form th:action="@{/logout}" method="post">
+            <form th:action="@{/logout}" method="post" class="mb-0">
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}"/>
@@ -333,57 +314,64 @@
 
 <div class="container mt-4">
 
-    <form th:action="@{/catalog}" method="get" class="row g-3 mb-4 align-items-end">
+    <h1 class="page-title">Catalogus</h1>
+    <p class="page-subtitle">
+        Zoek materiaal en voeg items toe aan je reservatieoverzicht.
+    </p>
 
-        <div class="col-md-4">
-            <label for="categoryId" class="form-label">Categorie</label>
-            <select name="categoryId" id="categoryId" class="form-select">
-                <option value=""
-                        th:selected="${selectedCategoryId} == null">
-                    Alle categorieën
-                </option>
-                <option th:each="cat : ${categories}"
-                        th:value="${cat.id}"
-                        th:text="${cat.name}"
-                        th:selected="${selectedCategoryId} != null and selectedCategoryId == cat.id">
-                </option>
-            </select>
-        </div>
+    <div class="filter-card mb-4">
+        <form th:action="@{/catalog}" method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="categoryId" class="form-label">Categorie</label>
+                <select name="categoryId" id="categoryId" class="form-select">
+                    <option value=""
+                            th:selected="${selectedCategoryId} == null">
+                        Alle categorieën
+                    </option>
+                    <option th:each="cat : ${categories}"
+                            th:value="${cat.id}"
+                            th:text="${cat.name}"
+                            th:selected="${selectedCategoryId} != null and selectedCategoryId == cat.id">
+                    </option>
+                </select>
+            </div>
 
-        <div class="col-md-4">
-            <label for="search" class="form-label">Zoekterm</label>
-            <input type="text" id="search" name="search"
-                   placeholder="Zoek op naam"
-                   th:value="${search}"
-                   class="form-control">
-        </div>
+            <div class="col-md-4">
+                <label for="search" class="form-label">Zoekterm</label>
+                <input type="text" id="search" name="search"
+                       placeholder="Zoek op naam"
+                       th:value="${search}"
+                       class="form-control">
+            </div>
 
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary me-2">Filter</button>
-            <a th:href="@{/catalog}" class="btn btn-outline-secondary">Reset</a>
-        </div>
-    </form>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary me-2">Filter</button>
+                <a th:href="@{/catalog}" class="btn btn-outline-secondary">Reset</a>
+            </div>
+        </form>
+    </div>
 
     <hr>
 
     <div th:if="${#lists.isEmpty(products)}" class="alert alert-warning">
-        Geen producten gevonden.
+        Geen materiaal gevonden.
     </div>
 
     <div class="row" th:if="${!#lists.isEmpty(products)}">
         <div class="col-md-4 mb-4" th:each="product : ${products}">
             <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}">Productnaam</h5>
+                    <h5 class="card-title" th:text="${product.name}">Materiaal</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
                         th:text="${product.category != null ? product.category.name : 'Geen categorie'}">
                         Categorie
                     </h6>
                     <p class="card-text" th:text="${product.description}">Beschrijving</p>
                 </div>
+
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <div>
-                        <span class="fw-bold" th:text="${product.price}">0.00</span> € / dag
+                        <span class="price" th:text="${product.price}">0.00</span> € / dag
                     </div>
 
                     <form th:action="@{'/cart/add/' + ${product.id}}"
@@ -402,15 +390,16 @@
                                value="1"
                                min="1"
                                class="form-control form-control-sm me-2"
-                               style="width: 70px;">
+                               style="width: 80px;"
+                               aria-label="Aantal">
 
                         <input type="number"
                                name="rentalDays"
                                value="1"
                                min="1"
                                class="form-control form-control-sm me-2"
-                               style="width: 90px;"
-                               placeholder="Dagen">
+                               style="width: 110px;"
+                               aria-label="Dagen">
 
                         <button type="submit" class="btn btn-sm btn-primary">
                             Toevoegen
@@ -418,7 +407,6 @@
                     </form>
 
                 </div>
-
             </div>
         </div>
     </div>
