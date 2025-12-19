@@ -21,7 +21,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
+
+                        .requestMatchers("/h2-console/**").hasRole("ADMIN")
+
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         .requestMatchers("/", "/login", "/register",
                                 "/css/**", "/js/**", "/img/**").permitAll()
@@ -51,6 +54,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
+
         return http.build();
     }
 }
