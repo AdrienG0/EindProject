@@ -174,6 +174,16 @@
             text-decoration: underline;
         }
 
+        .alert-error {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid var(--danger-border);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
         @media (max-width: 480px) {
             body { padding: 16px; }
             .auth-header { padding: 18px; }
@@ -200,19 +210,31 @@
     </div>
 
     <div class="auth-body">
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
         <form th:action="@{/register}" th:object="${user}" method="post" class="auth-form">
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input id="email" type="email"
+                <input id="email"
+                       type="email"
                        th:field="*{email}"
-                       placeholder="voornaam.achternaam@ehb.be" required>
+                       placeholder="voornaam.achternaam@ehb.be"
+                       required
+                       autocomplete="email"
+                       pattern="^[a-z]+\\.[a-z]+@ehb\\.be$"
+                       title="Gebruik een geldig EHB-adres in de vorm voornaam.achternaam@ehb.be (alleen kleine letters).">
             </div>
 
             <div class="form-group">
                 <label for="password">Wachtwoord</label>
-                <input id="password" type="password"
+                <input id="password"
+                       type="password"
                        th:field="*{password}"
-                       placeholder="Kies een veilig wachtwoord" required>
+                       placeholder="Minstens 9 tekens + 1 speciaal teken"
+                       required
+                       minlength="9"
+                       autocomplete="new-password"
+                       pattern="^(?=.*[^A-Za-z0-9]).{9,}$"
+                       title="Wachtwoord moet minstens 9 tekens hebben en minstens 1 speciaal teken bevatten (bv. ! @ # ?).">
             </div>
 
             <button type="submit" class="auth-button">Account aanmaken</button>
