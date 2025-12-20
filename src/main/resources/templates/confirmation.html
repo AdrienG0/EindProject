@@ -47,6 +47,7 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
+            flex-direction: column;
         }
 
         .confirm-card {
@@ -192,6 +193,7 @@
             border-top: 1px solid var(--border);
             color: var(--muted);
             padding: 18px 0;
+            width: 100%;
         }
 
         @media (max-width: 480px) {
@@ -204,6 +206,7 @@
 <body>
 
 <div class="confirm-wrapper">
+
     <div class="card confirm-card">
         <div class="confirm-header">
             <div class="brand">
@@ -246,7 +249,16 @@
             </div>
         </div>
     </div>
+
+    <footer>
+        <div class="container text-center">
+            <small>&copy; 2025 Uitleensysteem - Eindproject Spring Boot</small>
+        </div>
+    </footer>
+
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 </body>
 </html>

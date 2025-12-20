@@ -217,7 +217,6 @@
             flex-wrap: wrap;
         }
 
-
         .price {
             font-weight: 900;
             color: var(--primary);
@@ -240,6 +239,14 @@
             color: var(--muted);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+        }
+
+        footer {
+            margin-top: 34px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            padding: 18px 0;
         }
 
         @media (max-width: 767.98px) {
@@ -278,7 +285,6 @@
                 white-space: nowrap;
             }
 
-            /* Mini input blocks in catalog cards */
             .input-group-mini {
                 display: flex;
                 flex-direction: column;
@@ -296,14 +302,6 @@
                 min-width: 80px;
                 max-width: 110px;
                 text-align: center;
-            }
-
-            footer {
-                margin-top: 34px;
-                background: var(--surface);
-                border-top: 1px solid var(--border);
-                color: var(--muted);
-                padding: 18px 0;
             }
         }
     </style>
@@ -326,10 +324,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
 
             <ul class="navbar-nav me-auto">
-                <!--leeg -->
+                <!-- leeg -->
             </ul>
 
-            <a href="/cart" class="btn btn-outline-primary position-relative me-2">
+            <a href="/cart" class="btn btn-outline-primary position-relative me-2" aria-label="Mijn reservaties">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-cart" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1
@@ -454,7 +452,6 @@
                             Toevoegen
                         </button>
                     </form>
-
 
                 </div>
             </div>
