@@ -24,8 +24,6 @@ public class DataInitializer {
             UserRepository userRepository,
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
-            OrderRepository orderRepository,
-            CartItemRepository cartItemRepository,
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
@@ -390,19 +388,6 @@ public class DataInitializer {
                     productRepository.save(st3);
                     productRepository.save(st4);
                     productRepository.save(st5);
-                }
-            }
-
-            if (cartItemRepository.count() == 0) {
-                User user = userRepository.findByEmail("adrien@student.ehb.be").orElse(null);
-                if (user != null && productRepository.count() > 0) {
-                    var products = productRepository.findAll();
-                    if (products.size() >= 2) {
-                        CartItem item1 = new CartItem(user, products.get(0), 1);
-                        CartItem item2 = new CartItem(user, products.get(1), 2);
-                        cartItemRepository.save(item1);
-                        cartItemRepository.save(item2);
-                    }
                 }
             }
 
