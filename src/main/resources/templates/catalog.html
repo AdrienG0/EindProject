@@ -278,6 +278,25 @@
                 white-space: nowrap;
             }
 
+            /* Mini input blocks in catalog cards */
+            .input-group-mini {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                font-size: 0.75rem;
+                font-weight: 800;
+                color: var(--muted);
+            }
+
+            .input-group-mini label {
+                line-height: 1;
+            }
+
+            .input-group-mini input {
+                min-width: 80px;
+                max-width: 110px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -403,33 +422,36 @@
                           method="post"
                           class="add-form">
 
-                    <input type="hidden"
+                        <input type="hidden"
                                th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
 
                         <input type="hidden" name="categoryId" th:value="${selectedCategoryId}">
                         <input type="hidden" name="search" th:value="${search}">
 
-                        <input type="number"
-                               name="quantity"
-                               value="1"
-                               min="1"
-                               class="form-control form-control-sm me-2"
-                               style="width: 80px;"
-                               aria-label="Aantal">
+                        <div class="input-group-mini">
+                            <label>Aantal</label>
+                            <input type="number"
+                                   name="quantity"
+                                   value="1"
+                                   min="1"
+                                   class="form-control form-control-sm">
+                        </div>
 
-                        <input type="number"
-                               name="rentalDays"
-                               value="1"
-                               min="1"
-                               class="form-control form-control-sm me-2"
-                               style="width: 110px;"
-                               aria-label="Dagen">
+                        <div class="input-group-mini">
+                            <label>Dagen</label>
+                            <input type="number"
+                                   name="rentalDays"
+                                   value="1"
+                                   min="1"
+                                   class="form-control form-control-sm">
+                        </div>
 
                         <button type="submit" class="btn btn-sm btn-primary">
                             Toevoegen
                         </button>
                     </form>
+
 
                 </div>
             </div>
