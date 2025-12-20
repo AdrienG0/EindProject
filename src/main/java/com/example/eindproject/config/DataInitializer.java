@@ -29,7 +29,7 @@ public class DataInitializer {
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            
+
             if (userRepository.findByEmail("adrien@student.ehb.be").isEmpty()) {
                 User user = new User("Adrien Student", "adrien@student.ehb.be");
                 user.setPassword(passwordEncoder.encode(userPassword));

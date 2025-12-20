@@ -208,7 +208,15 @@
             background: #fbfdff;
             border-top: 1px solid var(--border);
             padding: 14px 16px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+
+            flex-wrap: wrap;
         }
+
 
         .price {
             font-weight: 900;
@@ -252,6 +260,24 @@
             .card-footer form .btn {
                 width: 100%;
             }
+
+            .add-form {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .add-form .form-control-sm {
+                min-width: 76px;
+                max-width: 110px;
+            }
+
+            .add-form .btn {
+                white-space: nowrap;
+            }
+
         }
     </style>
 </head>
@@ -282,7 +308,6 @@
             </ul>
 
             <a href="/cart" class="btn btn-outline-primary position-relative me-2">
-                <!-- cart icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-cart" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1
@@ -376,9 +401,9 @@
 
                     <form th:action="@{'/cart/add/' + ${product.id}}"
                           method="post"
-                          class="d-flex align-items-center">
+                          class="add-form">
 
-                        <input type="hidden"
+                    <input type="hidden"
                                th:name="${_csrf.parameterName}"
                                th:value="${_csrf.token}"/>
 
