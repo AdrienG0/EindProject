@@ -97,6 +97,10 @@
             padding: 10px 16px;
         }
 
+        .badge.bg-danger {
+            background: var(--primary) !important;
+        }
+
         .btn-outline-primary:hover {
             background: rgba(30, 58, 138, 0.08) !important;
         }
@@ -222,10 +226,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/catalog">Catalogus</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cart">Reservaties</a>
-                </li>
             </ul>
+
+            <a href="/cart" class="btn btn-outline-primary position-relative me-2" aria-label="Mijn reservaties">
+                <!-- cart icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-cart" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1h1a.5.5 0 0 1
+        .485.379L2.89 6H14.5a.5.5 0 0 1
+        .49.598l-1.5 7A.5.5 0 0 1
+        13 14H4a.5.5 0 0 1-.49-.402L1.61
+        2H.5a.5.5 0 0 1-.5-.5zM3.14
+        7l1.25 5h8.22l1.25-5H3.14zM5
+        12a1 1 0 1 0 0 2 1 1 0 0
+        0 0-2zm6 0a1 1 0 1 0 0 2
+        1 1 0 0 0 0-2z" />
+                </svg>
+
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      th:text="${cartCount}">
+    </span>
+            </a>
 
             <form th:action="@{/logout}" method="post" class="mb-0">
                 <input type="hidden"
@@ -233,6 +254,7 @@
                        th:value="${_csrf.token}"/>
                 <button class="btn btn-outline-danger">Uitloggen</button>
             </form>
+
         </div>
     </div>
 </nav>
