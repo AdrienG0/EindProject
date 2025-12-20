@@ -392,7 +392,7 @@ public class DataInitializer {
                     productRepository.save(st5);
                 }
             }
-            
+
             if (cartItemRepository.count() == 0) {
                 User user = userRepository.findByEmail("adrien@student.ehb.be").orElse(null);
                 if (user != null && productRepository.count() > 0) {
