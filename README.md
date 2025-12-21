@@ -31,7 +31,7 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 | **Spring Security** | Login, registratie en beveiliging |
 | **Thymeleaf** | HTML rendering |
 | **Maven** | Build & dependencies |
-| **H2 Database** | In-memory database (ontwikkelomgeving) |
+| **H2 Database** | File-based database (ontwikkelomgeving, persistent) |
 | **Bootstrap 5** | Basisstyling |
 
 ---
@@ -42,6 +42,8 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 - **Java JDK 17**
 - IDE zoals IntelliJ, of enkel terminal
 - Geen externe database nodig (H2 wordt automatisch geladen)
+- De H2-database wordt file-based gebruikt zodat gebruikers, winkelmandjes en orders
+  bewaard blijven bij het herstarten van de applicatie.
 
 ---
 
@@ -61,6 +63,18 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 - Spring Security configuratie.
 - Rolgebaseerde restricties (`USER`, `ADMIN`).
 
+### Standaardgebruikers
+Bij het opstarten worden standaardaccounts aangemaakt indien ze nog niet bestaan:
+
+- Admin account: `admin@ehb.be`
+- Gebruikersrol: `ADMIN`
+
+- default user account: `adrien@student.ehb.be`
+- Gebruikersrol: `USER`
+
+Deze accounts worden enkel aangemaakt indien ze nog niet in de database aanwezig zijn.
+
+
 ### 🛒 Producten & winkelmandje
 - Productoverzichtpagina.
 - Productdetailpagina.
@@ -78,6 +92,10 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 - Spring Security login, logout en bescherming van routes.
 - Sessies voor winkelmandje.
 - Rolgebaseerde toegang tot adminpagina’s.
+- Wachtwoorden worden gehashed met `BCryptPasswordEncoder`.
+- Wachtwoorden worden nooit in plain text opgeslagen.
+- Registratie bevat server-side validatie en wachtwoordbevestiging.
+
 
 ## 5. Gebruik van AI-tools
 Tijdens de ontwikkeling van dit project werd ChatGPT gebruikt als ondersteunende tool.
