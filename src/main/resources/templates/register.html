@@ -245,6 +245,20 @@
                        title="Wachtwoord moet minstens 9 tekens hebben en minstens 1 speciaal teken bevatten (bv. ! @ # ?).">
             </div>
 
+            <div class="form-group">
+                <label for="confirmPassword">Bevestig wachtwoord</label>
+                <input id="confirmPassword"
+                       type="password"
+                       name="confirmPassword"
+                       placeholder="Herhaal je wachtwoord"
+                       required
+                       minlength="9"
+                       autocomplete="new-password"
+                       pattern="^(?=.*[^A-Za-z0-9]).{9,}$"
+                       title="Wachtwoord moet minstens 9 tekens hebben en minstens 1 speciaal teken bevatten (bv. ! @ # ?).">
+            </div>
+
+
             <button type="submit" class="auth-button">Account aanmaken</button>
         </form>
 
