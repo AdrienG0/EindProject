@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/register",
                                 "/css/**", "/js/**", "/img/**").permitAll()
 
-                        .requestMatchers("/catalog").permitAll()
+                        .requestMatchers("/catalog").authenticated()
 
                         .requestMatchers("/cart/**", "/checkout/**", "/home").authenticated()
 
