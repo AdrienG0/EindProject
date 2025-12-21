@@ -83,10 +83,13 @@ Deze accounts worden enkel aangemaakt indien ze nog niet in de database aanwezig
 - Automatische totaalprijsberekening.
 
 ### 💳 Checkout & Orders
-- Checkoutpagina met orderoverzicht.
-- Order wordt gekoppeld aan de ingelogde gebruiker.
-- Opslag van orders via JPA in de H2-database.
-- Bevestigingspagina na succesvolle bestelling.
+De applicatie gebruikt Spring Security om gebruikerssessies te beheren.
+Elke ingelogde gebruiker heeft een eigen winkelmandje dat gekoppeld is
+aan zijn account in de database.
+
+Tijdens het checkoutproces wordt de inhoud van het winkelmandje opgehaald
+op basis van de actieve gebruiker en verwerkt tot een order.
+Na bevestiging wordt de bestelling opgeslagen en wordt het winkelmandje leeggemaakt.
 
 ### 🔐 Security & sessies
 - Spring Security login, logout en bescherming van routes.
