@@ -241,6 +241,22 @@
             box-shadow: var(--shadow);
         }
 
+        .results-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 12px 16px;
+            margin: 16px 0 0 0;
+            color: var(--muted);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
         footer {
             margin-top: 34px;
             background: var(--surface);
@@ -390,10 +406,33 @@
             </div>
 
             <div class="col-md-4">
-                <button type="submit" class="btn btn-primary me-2">Filter</button>
+                <label for="sort" class="form-label">Sorteren</label>
+                <select name="sort" id="sort" class="form-select">
+                    <option value=""
+                            th:selected="${sort} == null or sort == ''">
+                        Standaard
+                    </option>
+                    <option value="nameAsc" th:selected="${sort} == 'nameAsc'">Naam (A-Z)</option>
+                    <option value="nameDesc" th:selected="${sort} == 'nameDesc'">Naam (Z-A)</option>
+                    <option value="priceAsc" th:selected="${sort} == 'priceAsc'">Prijs (laag-hoog)</option>
+                    <option value="priceDesc" th:selected="${sort} == 'priceDesc'">Prijs (hoog-laag)</option>
+                </select>
+            </div>
+
+            <div class="col-12 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Toepassen</button>
                 <a th:href="@{/catalog}" class="btn btn-outline-secondary">Reset</a>
             </div>
         </form>
+    </div>
+
+    <div class="results-bar" th:if="${products != null}">
+        <div>
+            <span th:text="${#lists.size(products)}">0</span> resultaat/resultaten gevonden
+        </div>
+        <div th:if="${selectedCategoryId != null or (search != null and search != '') or (sort != null and sort != '')}">
+            Filters actief
+        </div>
     </div>
 
     <hr>
@@ -429,6 +468,7 @@
 
                         <input type="hidden" name="categoryId" th:value="${selectedCategoryId}">
                         <input type="hidden" name="search" th:value="${search}">
+                        <input type="hidden" name="sort" th:value="${sort}">
 
                         <div class="input-group-mini">
                             <label>Aantal</label>
@@ -470,9 +510,11 @@
         crossorigin="anonymous"></script>
 
 <script>
-    document.addEventListener("submit", function () {
-        sessionStorage.setItem("catalogScrollY", String(window.scrollY));
-    }, true);
+    document.querySelectorAll(".add-form").forEach(function (form) {
+        form.addEventListener("submit", function () {
+            sessionStorage.setItem("catalogScrollY", String(window.scrollY));
+        });
+    });
 
     window.addEventListener("load", function () {
         const y = sessionStorage.getItem("catalogScrollY");

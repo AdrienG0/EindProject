@@ -4,6 +4,7 @@ import com.example.eindproject.model.Product;
 import com.example.eindproject.model.Category;
 import com.example.eindproject.repository.ProductRepository;
 import com.example.eindproject.repository.CategoryRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,31 +28,59 @@ public class CatalogController {
     public String showCatalog(
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) String sort,
             Model model
     ) {
 
         List<Category> categories = categoryRepository.findAll();
 
-        List<Product> products;
-
         boolean hasCategoryFilter = (categoryId != null);
         boolean hasSearchFilter = (search != null && !search.trim().isEmpty());
 
+        String cleanedSearch = (search == null) ? "" : search.trim();
+        String cleanedSort = (sort == null) ? "" : sort.trim();
+
+        Sort sortObj = Sort.by("name").ascending();
+
+        if (!cleanedSort.isEmpty()) {
+            switch (cleanedSort) {
+                case "nameAsc":
+                    sortObj = Sort.by("name").ascending();
+                    break;
+                case "nameDesc":
+                    sortObj = Sort.by("name").descending();
+                    break;
+                case "priceAsc":
+                    sortObj = Sort.by("price").ascending();
+                    break;
+                case "priceDesc":
+                    sortObj = Sort.by("price").descending();
+                    break;
+                default:
+                    sortObj = Sort.by("name").ascending();
+                    cleanedSort = "";
+                    break;
+            }
+        }
+
+        List<Product> products;
+
         if (hasCategoryFilter && hasSearchFilter) {
             products = productRepository
-                    .findByCategory_IdAndNameContainingIgnoreCase(categoryId, search.trim());
+                    .findByCategory_IdAndNameContainingIgnoreCase(categoryId, cleanedSearch, sortObj);
         } else if (hasCategoryFilter) {
-            products = productRepository.findByCategory_Id(categoryId);
+            products = productRepository.findByCategory_Id(categoryId, sortObj);
         } else if (hasSearchFilter) {
-            products = productRepository.findByNameContainingIgnoreCase(search.trim());
+            products = productRepository.findByNameContainingIgnoreCase(cleanedSearch, sortObj);
         } else {
-            products = productRepository.findAll();
+            products = productRepository.findAll(sortObj);
         }
 
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
         model.addAttribute("selectedCategoryId", categoryId);
-        model.addAttribute("search", search == null ? "" : search);
+        model.addAttribute("search", cleanedSearch);
+        model.addAttribute("sort", cleanedSort);
 
         return "catalog";
     }
