@@ -51,7 +51,13 @@ public class CartController {
                             RedirectAttributes redirectAttributes) {
 
         User user = getCurrentUser(authentication);
-        cartService.addToCart(user, productId, quantity, rentalDays);
+
+        try {
+            cartService.addToCart(user, productId, quantity, rentalDays);
+            redirectAttributes.addFlashAttribute("cartSuccess", "Product toegevoegd aan je reservaties.");
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("cartError", ex.getMessage());
+        }
 
         if (categoryId != null) {
             redirectAttributes.addAttribute("categoryId", categoryId);
@@ -64,7 +70,11 @@ public class CartController {
     }
 
     @GetMapping
-    public String showCart(Model model, Authentication authentication) {
+    public String showCart(Model model,
+                           Authentication authentication,
+                           @ModelAttribute("cartError") String cartError,
+                           @ModelAttribute("cartSuccess") String cartSuccess) {
+
         User user = getCurrentUser(authentication);
 
         List<CartItem> items = cartService.getCartItems(user);
@@ -73,15 +83,29 @@ public class CartController {
         model.addAttribute("items", items);
         model.addAttribute("total", total);
 
+        if (cartError != null && !cartError.isBlank()) {
+            model.addAttribute("cartError", cartError);
+        }
+        if (cartSuccess != null && !cartSuccess.isBlank()) {
+            model.addAttribute("cartSuccess", cartSuccess);
+        }
+
         return "cart";
     }
 
     @PostMapping("/remove")
     public String removeCartItem(@RequestParam("cartItemId") Long cartItemId,
-                                 Authentication authentication) {
+                                 Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
 
         User user = getCurrentUser(authentication);
-        cartService.removeItem(user, cartItemId);
+
+        try {
+            cartService.removeItem(user, cartItemId);
+            redirectAttributes.addFlashAttribute("cartSuccess", "Item verwijderd en stock werd teruggezet.");
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("cartError", ex.getMessage());
+        }
 
         return "redirect:/cart";
     }
@@ -89,10 +113,17 @@ public class CartController {
     @PostMapping("/update")
     public String updateCartItem(@RequestParam("cartItemId") Long cartItemId,
                                  @RequestParam("quantity") int quantity,
-                                 Authentication authentication) {
+                                 Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
 
         User user = getCurrentUser(authentication);
-        cartService.updateQuantity(user, cartItemId, quantity);
+
+        try {
+            cartService.updateQuantity(user, cartItemId, quantity);
+            redirectAttributes.addFlashAttribute("cartSuccess", "Aantal werd aangepast.");
+        } catch (IllegalArgumentException ex) {
+            redirectAttributes.addFlashAttribute("cartError", ex.getMessage());
+        }
 
         return "redirect:/cart";
     }
@@ -128,7 +159,6 @@ public class CartController {
         var total = cartService.getCartTotal(user);
 
         Order order = new Order();
-
         order = orderRepository.save(order);
 
         for (CartItem item : items) {

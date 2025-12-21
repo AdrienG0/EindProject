@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -29,7 +30,9 @@ public class CatalogController {
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String sort,
-            Model model
+            Model model,
+            @ModelAttribute("cartError") String cartError,
+            @ModelAttribute("cartSuccess") String cartSuccess
     ) {
 
         List<Category> categories = categoryRepository.findAll();
@@ -81,6 +84,16 @@ public class CatalogController {
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("search", cleanedSearch);
         model.addAttribute("sort", cleanedSort);
+
+
+        if (cartError != null && !cartError.isBlank()) {
+            model.addAttribute("cartError", cartError);
+            model.addAttribute("stockError", cartError);
+        }
+        if (cartSuccess != null && !cartSuccess.isBlank()) {
+            model.addAttribute("cartSuccess", cartSuccess);
+            model.addAttribute("stockSuccess", cartSuccess);
+        }
 
         return "catalog";
     }

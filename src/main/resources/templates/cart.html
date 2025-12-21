@@ -315,6 +315,19 @@
         Beheer je geselecteerde materialen. Pas aantallen aan of verwijder items.
     </p>
 
+    <div th:if="${cartError != null and !#strings.isEmpty(cartError)}"
+         class="alert alert-danger"
+         role="alert"
+         th:text="${cartError}">
+    </div>
+
+    <div th:if="${cartSuccess != null and !#strings.isEmpty(cartSuccess)}"
+         class="alert alert-success"
+         role="alert"
+         th:text="${cartSuccess}">
+    </div>
+
+
     <div th:if="${#lists.isEmpty(items)}" class="alert alert-info">
         Je hebt nog geen materialen toegevoegd.
         <a href="/catalog" class="alert-link">Ga naar de catalogus</a>.
@@ -356,7 +369,8 @@
                                    name="quantity"
                                    min="1"
                                    class="form-control form-control-sm qty-input"
-                                   th:value="${item.quantity}" />
+                                   th:value="${item.quantity}"
+                                   th:attr="max=${(item.product.stock == null ? 0 : item.product.stock) + item.quantity}" />
 
                             <button type="submit"
                                     class="btn btn-sm btn-outline-primary ms-2">

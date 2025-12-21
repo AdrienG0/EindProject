@@ -257,6 +257,17 @@
             flex-wrap: wrap;
         }
 
+        .stock-line {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         footer {
             margin-top: 34px;
             background: var(--surface);
@@ -380,6 +391,14 @@
         Zoek materiaal en voeg items toe aan je reservatieoverzicht.
     </p>
 
+    <div th:if="${cartError != null and !#strings.isEmpty(cartError)}"
+         class="alert alert-danger" role="alert" th:text="${cartError}"></div>
+
+    <div th:if="${cartSuccess != null and !#strings.isEmpty(cartSuccess)}"
+         class="alert alert-success" role="alert" th:text="${cartSuccess}"></div>
+
+
+
     <div class="filter-card mb-4">
         <form th:action="@{/catalog}" method="get" class="row g-3 align-items-end">
             <div class="col-md-4">
@@ -451,6 +470,16 @@
                         Categorie
                     </h6>
                     <p class="card-text" th:text="${product.description}">Beschrijving</p>
+
+                    <div class="stock-line">
+                        <span>Stock:</span>
+                        <span th:text="${product.stock}">0</span>
+
+                        <span class="badge text-bg-secondary"
+                              th:if="${product.stock == null or product.stock <= 0}">
+                            Uitverkocht
+                        </span>
+                    </div>
                 </div>
 
                 <div class="card-footer d-flex justify-content-between align-items-center">
@@ -476,7 +505,9 @@
                                    name="quantity"
                                    value="1"
                                    min="1"
-                                   class="form-control form-control-sm">
+                                   th:attr="max=${product.stock}"
+                                   class="form-control form-control-sm"
+                                   th:disabled="${product.stock == null or product.stock <= 0}">
                         </div>
 
                         <div class="input-group-mini">
@@ -485,10 +516,13 @@
                                    name="rentalDays"
                                    value="1"
                                    min="1"
-                                   class="form-control form-control-sm">
+                                   class="form-control form-control-sm"
+                                   th:disabled="${product.stock == null or product.stock <= 0}">
                         </div>
 
-                        <button type="submit" class="btn btn-sm btn-primary">
+                        <button type="submit"
+                                class="btn btn-sm btn-primary"
+                                th:disabled="${product.stock == null or product.stock <= 0}">
                             Toevoegen
                         </button>
                     </form>
