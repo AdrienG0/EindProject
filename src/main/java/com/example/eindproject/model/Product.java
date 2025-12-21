@@ -7,7 +7,6 @@ import java.util.List;
 
 @Entity
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,9 +16,6 @@ public class Product {
     private String description;
 
     private BigDecimal price;
-
-    @Column(nullable = false)
-    private int stock = 0;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -31,12 +27,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, BigDecimal price, Category category, int stock) {
+    public Product(String name, String description, BigDecimal price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.stock = stock;
     }
 
     public Long getId() {
@@ -67,14 +62,6 @@ public class Product {
         this.price = price;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -92,7 +79,6 @@ public class Product {
         return "Product{id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", stock=" + stock +
                 ", category=" + (category != null ? category.getName() : null) +
                 '}';
     }

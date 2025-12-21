@@ -21,23 +21,7 @@ public class CartService {
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
     }
-
     public void addToCart(User user, Long productId, int quantity, int rentalDays) {
-
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("Aantal moet minstens 1 zijn.");
-        }
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product bestaat niet: " + productId));
-
-        if (product.getStock() < quantity) {
-            throw new IllegalStateException("Niet genoeg stock beschikbaar.");
-        }
-
-        product.setStock(product.getStock() - quantity);
-        productRepository.save(product);
-
         var existingOpt = cartItemRepository
                 .findByUserAndOrderIsNullAndProduct_Id(user, productId);
 
@@ -49,6 +33,9 @@ public class CartService {
             return;
         }
 
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product bestaat niet: " + productId));
+
         CartItem newItem = new CartItem(user, product, quantity, rentalDays);
         cartItemRepository.save(newItem);
     }
@@ -56,69 +43,35 @@ public class CartService {
     public List<CartItem> getCartItems(User user) {
         return cartItemRepository.findByUserAndOrderIsNull(user);
     }
-
     public BigDecimal getCartTotal(User user) {
         return getCartItems(user).stream()
-                .map(item -> item.getProduct().getPrice()
-                        .multiply(BigDecimal.valueOf(item.getRentalDays()))
-                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(item -> item.getProduct().getPrice()                         // prijs per dag
+                        .multiply(BigDecimal.valueOf(item.getRentalDays()))       // × dagen
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))        // × aantal
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void removeItem(User user, Long cartItemId) {
         cartItemRepository.findById(cartItemId).ifPresent(item -> {
             if (item.getUser().getId().equals(user.getId()) && item.getOrder() == null) {
-
-                Product product = item.getProduct();
-                product.setStock(product.getStock() + item.getQuantity());
-                productRepository.save(product);
-
                 cartItemRepository.delete(item);
             }
         });
     }
 
     public void clearCart(User user) {
-        List<CartItem> items = cartItemRepository.findByUserAndOrderIsNull(user);
-
-        for (CartItem item : items) {
-            Product product = item.getProduct();
-            product.setStock(product.getStock() + item.getQuantity());
-            productRepository.save(product);
-        }
-
         cartItemRepository.deleteByUserAndOrderIsNull(user);
     }
-
     public void updateQuantity(User user, Long cartItemId, int quantity) {
         cartItemRepository.findById(cartItemId).ifPresent(item -> {
             if (item.getUser().getId().equals(user.getId()) && item.getOrder() == null) {
 
-                Product product = item.getProduct();
-                int oldQty = item.getQuantity();
-
                 if (quantity <= 0) {
-                    product.setStock(product.getStock() + oldQty);
-                    productRepository.save(product);
                     cartItemRepository.delete(item);
-                    return;
+                } else {
+                    item.setQuantity(quantity);
+                    cartItemRepository.save(item);
                 }
-
-                int diff = quantity - oldQty;
-
-                if (diff > 0) {
-                    if (product.getStock() < diff) {
-                        throw new IllegalStateException("Niet genoeg stock beschikbaar voor deze wijziging.");
-                    }
-                    product.setStock(product.getStock() - diff);
-                } else if (diff < 0) {
-                    product.setStock(product.getStock() + Math.abs(diff));
-                }
-
-                productRepository.save(product);
-
-                item.setQuantity(quantity);
-                cartItemRepository.save(item);
             }
         });
     }
