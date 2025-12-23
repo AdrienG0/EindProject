@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Controller
@@ -83,15 +84,61 @@ public class AuthController {
             return "redirect:/login";
         }
 
-        User user = userRepository.findByEmail(principal.getName())
-                .orElse(null);
-
+        User user = userRepository.findByEmail(principal.getName()).orElse(null);
         if (user == null) {
             return "redirect:/login";
         }
 
         model.addAttribute("user", user);
         return "profile";
+    }
+
+    @PostMapping("/profile/update")
+    public String updateProfile(
+            Principal principal,
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            Model model
+    ) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User user = userRepository.findByEmail(principal.getName()).orElse(null);
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        if (name == null || name.trim().isEmpty()) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Naam mag niet leeg zijn.");
+            return "profile";
+        }
+
+        if (email == null || !EHB_EMAIL_PATTERN.matcher(email).matches()) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Gebruik een geldig EHB-adres: voornaam.achternaam@ehb.be (kleine letters).");
+            return "profile";
+        }
+
+        Optional<User> existing = userRepository.findByEmail(email);
+        if (existing.isPresent() && !existing.get().getEmail().equals(user.getEmail())) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Er bestaat al een account met dit e-mailadres.");
+            return "profile";
+        }
+
+        String oldEmail = user.getEmail();
+
+        user.setName(name.trim());
+        user.setEmail(email.trim());
+        userRepository.save(user);
+
+        if (!oldEmail.equalsIgnoreCase(email.trim())) {
+            return "redirect:/logout";
+        }
+
+        return "redirect:/profile?updated";
     }
 
     @PostMapping("/profile/password")
@@ -106,9 +153,7 @@ public class AuthController {
             return "redirect:/login";
         }
 
-        User user = userRepository.findByEmail(principal.getName())
-                .orElse(null);
-
+        User user = userRepository.findByEmail(principal.getName()).orElse(null);
         if (user == null) {
             return "redirect:/login";
         }
