@@ -359,7 +359,6 @@
                 </li>
             </ul>
 
-
             <a href="/cart" class="btn btn-outline-primary position-relative me-2" aria-label="Mijn reservaties">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                      class="bi bi-cart" viewBox="0 0 16 16">
@@ -374,7 +373,8 @@
                     1 1 0 0 0 0-2z" />
                 </svg>
 
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                <span id="cartCountBadge"
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                       th:text="${cartCount}">
                 </span>
             </a>
@@ -397,13 +397,13 @@
         Zoek materiaal en voeg items toe aan je reservatieoverzicht.
     </p>
 
+    <!-- LET OP: deze alerts blijven staan voor andere pagina's/flows,
+         maar bij AJAX voegen we een toast toe -->
     <div th:if="${cartError != null and !#strings.isEmpty(cartError)}"
          class="alert alert-danger" role="alert" th:text="${cartError}"></div>
 
     <div th:if="${cartSuccess != null and !#strings.isEmpty(cartSuccess)}"
          class="alert alert-success" role="alert" th:text="${cartSuccess}"></div>
-
-
 
     <div class="filter-card mb-4">
         <form th:action="@{/catalog}" method="get" class="row g-3 align-items-end">
@@ -493,7 +493,7 @@
                         <span class="price" th:text="${product.price}">0.00</span> € / dag
                     </div>
 
-                    <form th:action="@{'/cart/add/' + ${product.id}}"
+                    <form th:action="@{'/cart/add-ajax/' + ${product.id}}"
                           method="post"
                           class="add-form">
 
@@ -549,19 +549,65 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-<script>
-    document.querySelectorAll(".add-form").forEach(function (form) {
-        form.addEventListener("submit", function () {
-            sessionStorage.setItem("catalogScrollY", String(window.scrollY));
-        });
-    });
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="addToast" class="toast align-items-center text-bg-success border-0"
+         role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div id="addToastMessage" class="toast-body">
+                Toegevoegd!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
-    window.addEventListener("load", function () {
-        const y = sessionStorage.getItem("catalogScrollY");
-        if (y !== null) {
-            window.scrollTo(0, parseInt(y, 10));
-            sessionStorage.removeItem("catalogScrollY");
-        }
+<script>
+    function showToast(message, success) {
+        const toastEl = document.getElementById("addToast");
+        const msgEl = document.getElementById("addToastMessage");
+
+        msgEl.textContent = message;
+
+        toastEl.classList.remove("text-bg-success", "text-bg-danger");
+        toastEl.classList.add(success ? "text-bg-success" : "text-bg-danger");
+
+        const toast = new bootstrap.Toast(toastEl, { delay: 1800 });
+        toast.show();
+    }
+
+    document.querySelectorAll(".add-form").forEach((form) => {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const url = form.getAttribute("action");
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const badge = document.getElementById("cartCountBadge");
+                    if (badge && data.cartCount !== null && data.cartCount !== undefined) {
+                        badge.textContent = String(data.cartCount);
+                    }
+                    showToast(data.message, true);
+                } else {
+                    showToast(data.message, false);
+                }
+
+            } catch (err) {
+                showToast("Er ging iets mis. Probeer opnieuw.", false);
+            }
+        });
     });
 </script>
 

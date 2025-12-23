@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
@@ -67,6 +69,36 @@ public class CartController {
         }
 
         return "redirect:/catalog";
+    }
+
+    @PostMapping("/add-ajax/{productId}")
+    @ResponseBody
+    public Map<String, Object> addToCartAjax(@PathVariable Long productId,
+                                             @RequestParam(defaultValue = "1") int quantity,
+                                             @RequestParam(defaultValue = "1") int rentalDays,
+                                             Authentication authentication) {
+
+        User user = getCurrentUser(authentication);
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            cartService.addToCart(user, productId, quantity, rentalDays);
+
+            List<CartItem> items = cartService.getCartItems(user);
+            int cartCount = items.stream().mapToInt(CartItem::getQuantity).sum();
+
+            response.put("success", true);
+            response.put("message", "Product toegevoegd aan je reservaties.");
+            response.put("cartCount", cartCount);
+
+        } catch (IllegalArgumentException ex) {
+            response.put("success", false);
+            response.put("message", ex.getMessage());
+            response.put("cartCount", null);
+        }
+
+        return response;
     }
 
     @GetMapping
