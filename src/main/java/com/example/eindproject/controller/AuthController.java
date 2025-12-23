@@ -20,7 +20,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     private static final Pattern EHB_EMAIL_PATTERN =
-            Pattern.compile("^[a-z]+\\.[a-z]+@ehb\\.be$");
+            Pattern.compile("^[a-z0-9._%+-]+@ehb\\.be$");
 
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*[^A-Za-z0-9]).{9,}$");
@@ -115,31 +115,38 @@ public class AuthController {
             return "profile";
         }
 
-        if (email == null || !EHB_EMAIL_PATTERN.matcher(email).matches()) {
-            model.addAttribute("user", user);
-            model.addAttribute("error", "Gebruik een geldig EHB-adres: voornaam.achternaam@ehb.be (kleine letters).");
-            return "profile";
-        }
+        String newName = name.trim();
+        String newEmail = (email == null) ? "" : email.trim().toLowerCase();
+        String currentEmail = user.getEmail() == null ? "" : user.getEmail().trim().toLowerCase();
 
-        Optional<User> existing = userRepository.findByEmail(email);
-        if (existing.isPresent() && !existing.get().getEmail().equals(user.getEmail())) {
-            model.addAttribute("user", user);
-            model.addAttribute("error", "Er bestaat al een account met dit e-mailadres.");
-            return "profile";
-        }
+        user.setName(newName);
 
-        String oldEmail = user.getEmail();
+        boolean emailChanged = !newEmail.equals(currentEmail);
 
-        user.setName(name.trim());
-        user.setEmail(email.trim());
-        userRepository.save(user);
+        if (emailChanged) {
+            if (newEmail.isEmpty() || !EHB_EMAIL_PATTERN.matcher(newEmail).matches()) {
+                model.addAttribute("user", user);
+                model.addAttribute("error", "Gebruik een geldig EHB-adres dat eindigt op @ehb.be.");
+                return "profile";
+            }
 
-        if (!oldEmail.equalsIgnoreCase(email.trim())) {
+            Optional<User> existing = userRepository.findByEmail(newEmail);
+            if (existing.isPresent() && !existing.get().getEmail().equalsIgnoreCase(user.getEmail())) {
+                model.addAttribute("user", user);
+                model.addAttribute("error", "Er bestaat al een account met dit e-mailadres.");
+                return "profile";
+            }
+
+            user.setEmail(newEmail);
+            userRepository.save(user);
+
             return "redirect:/logout";
         }
 
+        userRepository.save(user);
         return "redirect:/profile?updated";
     }
+
 
     @PostMapping("/profile/password")
     public String updatePassword(
