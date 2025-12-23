@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.regex.Pattern;
 
 @Controller
@@ -71,9 +72,68 @@ public class AuthController {
         return "redirect:/login";
     }
 
-
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("/profile")
+    public String showProfile(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User user = userRepository.findByEmail(principal.getName())
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
+    @PostMapping("/profile/password")
+    public String updatePassword(
+            Principal principal,
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmNewPassword") String confirmNewPassword,
+            Model model
+    ) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User user = userRepository.findByEmail(principal.getName())
+                .orElse(null);
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        if (currentPassword == null || !passwordEncoder.matches(currentPassword, user.getPassword())) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Huidig wachtwoord is niet correct.");
+            return "profile";
+        }
+
+        if (newPassword == null || !PASSWORD_PATTERN.matcher(newPassword).matches()) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Nieuw wachtwoord moet minstens 9 tekens hebben en minstens 1 speciaal teken bevatten.");
+            return "profile";
+        }
+
+        if (confirmNewPassword == null || !newPassword.equals(confirmNewPassword)) {
+            model.addAttribute("user", user);
+            model.addAttribute("error", "De nieuwe wachtwoorden komen niet overeen.");
+            return "profile";
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return "redirect:/profile?success";
     }
 }
