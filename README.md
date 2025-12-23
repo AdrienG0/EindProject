@@ -7,12 +7,12 @@ authenticatie tot reservatie en checkout, met **correct stockbeheer** en een **p
 ---
 
 ## 📌 Inhoudstafel
-1. Beschrijving
-2. Technologieën
-3. Hoe te runnen
-4. Functionaliteiten
-5. Gebruik van AI-tools
-6. Bronnen
+1. [Beschrijving](#beschrijving)
+2. [Technologieën](#technologieën)
+3. [Hoe te runnen](#hoe-te-runnen)
+4. [Functionaliteiten](#functionaliteiten)
+5. [Gebruik van AI-tools](#gebruik-van-ai-tools)
+6. [Bronnen](#bronnen)
 
 ---
 
@@ -42,7 +42,7 @@ De applicatie maakt gebruik van een **H2 file-based database**, waardoor alle da
 | Thymeleaf | Server-side HTML rendering |
 | Maven | Build & dependency management |
 | H2 Database (file-based) | Persistente ontwikkel-database |
-| Bootstrap 5 | Styling en responsive UI |  
+| Bootstrap 5 | Styling en responsive UI |
 
 ---
 
@@ -66,7 +66,7 @@ De applicatie maakt gebruik van een **H2 file-based database**, waardoor alle da
 
 Open daarna de applicatie in de browser: http://localhost:8080
 
-### H2 Console (login als admin)
+### H2 Console (alleen ADMIN)
 - URL: http://localhost:8080/h2-console
 - JDBC URL: jdbc:h2:file:./data/eindprojectdb
 - Username: sa
@@ -109,7 +109,7 @@ Beveiliging en gedrag:
 - Wachtwoorden blijven altijd gehasht opgeslagen.
 
 
-### 🛒 Catalogus
+### 📦 Catalogus
 - Overzicht van alle materialen.
 - Filteren op categorie en zoekterm.
 - Sorteren op naam en prijs.
@@ -124,7 +124,7 @@ Beveiliging en gedrag:
 
 Elke gebruiker heeft een eigen reservatieoverzicht, gekoppeld aan zijn account.
 
-### 🛒 Stockbeheer
+### 📦 Stockbeheer
 - Stock wordt onmiddellijk aangepast bij elke actie.
 - Gedrag:
   - Toevoegen → stock verlaagt.
@@ -142,6 +142,10 @@ aan zijn account in de database.
 Tijdens het checkoutproces wordt de inhoud van het winkelmandje opgehaald
 op basis van de actieve gebruiker en verwerkt tot een order.
 Na bevestiging wordt de bestelling opgeslagen en wordt het winkelmandje leeggemaakt.
+
+### 🧾 Reservatiegeschiedenis
+- Pagina “Mijn reservaties” toont de volledige historiek van orders/reservaties per gebruiker.
+- Enkel de ingelogde gebruiker ziet zijn eigen historiek.
 
 ### 🔐 Security & sessies
 - Spring Security login, logout en bescherming van routes.

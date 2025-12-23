@@ -2,47 +2,58 @@
 
 ## 1. Doel van deze documentatie
 
-Deze documentatie beschrijft de **structuur**, **architectuur** en **belangrijkste klassen**
-van het Uitleensysteem.  
-Ze is bedoeld voor **ontwikkelaars** die de code willen begrijpen, onderhouden of uitbreiden.
+Deze technische documentatie beschrijft de **architectuur**, **structuur** en **kerncomponenten**
+van de Uitleensysteem Applicatie.
+
+Ze is bedoeld voor **ontwikkelaars** die:
+- de code willen begrijpen
+- onderhoud willen uitvoeren
+- functionaliteit willen uitbreiden
 
 De focus ligt op:
-- architectuur en lagen
+- lagenarchitectuur
 - package-indeling
-- kernklassen en hun verantwoordelijkheid
+- verantwoordelijkheden van kernklassen
 
-Getters, setters en eenvoudige mappings worden bewust niet besproken.
+Eenvoudige getters/setters en standaard JPA-mappings worden bewust niet besproken.
 
 ---
 
 ## 2. Architectuur Overzicht
 
-De applicatie volgt de **klassieke Spring Boot lagenarchitectuur**:
+De applicatie volgt een **klassieke Spring Boot lagenarchitectuur**:
 
-Controller → Service → Repository → Database 
+Controller → Service → Repository → Database
 
 
-Elke laag heeft één duidelijke verantwoordelijkheid:
-- **Controller**: verwerken van HTTP-verzoeken
-- **Service**: businesslogica en transacties
-- **Repository**: database-interactie (JPA)
-- **Model**: JPA-entiteiten
-- **Config**: security en initialisatie
+### Verantwoordelijkheid per laag
+- **Controller**  
+  Verwerkt HTTP-verzoeken en stuurt views of responses terug.
+- **Service**  
+  Bevat businesslogica en transactionele operaties.
+- **Repository**  
+  Verzorgt database-interactie via Spring Data JPA.
+- **Model**  
+  Bevat JPA-entiteiten die de database representeren.
+- **Config**  
+  Bevat securityconfiguratie en initiële data.
 
-Deze scheiding zorgt voor onderhoudbare en uitbreidbare code.
+Deze scheiding zorgt voor **duidelijke verantwoordelijkheden**, betere testbaarheid
+en een onderhoudbare codebase.
 
 ---
 
 ## 3. Package Structuur
 
 ### `config`
-Bevat configuratieklassen.
+Bevat configuratieklassen die de applicatie bij opstart correct instellen.
 
 **Belangrijkste klassen**
-- `SecurityConfig`  
-  Configureert Spring Security, login, logout en roltoegang.
-- `DataInitializer`  
-  Initialiseert standaardgebruikers, categorieën en producten bij opstart.
+- **`SecurityConfig`**  
+  Configureert Spring Security, login/logout, CSRF-beveiliging en rolgebaseerde toegang.
+- **`DataInitializer`**  
+  Initialiseert standaardgebruikers, categorieën en producten bij opstart
+  indien deze nog niet bestaan.
 
 ---
 
@@ -50,20 +61,22 @@ Bevat configuratieklassen.
 Bevat alle **JPA-entiteiten** die overeenkomen met databanktabellen.
 
 **Belangrijkste entiteiten**
-- `User` – gebruikers en rollen
-- `Product` – uitleenbaar materiaal
-- `Category` – productcategorieën
-- `CartItem` – items in een reservatie
-- `Order` – bevestigde reservaties
+- **`User`** – gebruikersaccounts en rollen
+- **`Product`** – uitleenbaar materiaal
+- **`Category`** – productcategorieën
+- **`CartItem`** – items in een lopende reservatie
+- **`Order`** – bevestigde reservaties (historiek)
+
+Relaties tussen entiteiten zijn expliciet gedefinieerd via JPA-annotaties.
 
 ---
 
 ### `repository`
-Spring Data JPA repositories.
+Bevat Spring Data JPA repository-interfaces.
 
-Deze interfaces leveren standaard CRUD-functionaliteit zonder extra code.
+Deze repositories voorzien standaard CRUD-functionaliteit zonder extra implementatie.
 
-Voorbeelden:
+**Voorbeelden**
 - `UserRepository`
 - `ProductRepository`
 - `OrderRepository`
@@ -72,73 +85,82 @@ Voorbeelden:
 ---
 
 ### `service`
-Bevat alle **businesslogica**.
+Bevat alle **businesslogica** en transactionele verwerking.
 
 #### `CartService`
-Verantwoordelijk voor reservaties en stockbeheer.
+Centrale service voor reservaties en stockbeheer.
 
-**Belangrijkste verantwoordelijkheden**
+**Verantwoordelijkheden**
 - toevoegen en verwijderen van items
 - aanpassen van aantallen
 - berekenen van totaalprijs
 - correcte stockverwerking bij elke actie
 
-Alle stocklogica gebeurt transactioneel om inconsistenties te vermijden.
+Alle stocklogica gebeurt **transactioneel** om inconsistenties te vermijden
+(bijvoorbeeld bij gelijktijdige acties).
 
 ---
 
 ### `controller`
-Controllers die instaan voor navigatie en gebruikersinteractie.
+Controllers verzorgen de navigatie en gebruikersinteractie.
 
 #### `AuthController`
 - Login en registratie
 - Validatie van gebruikersgegevens
-- Wachtwoord hashing via BCrypt
+- Wachtwoord hashing met BCrypt
 
 #### `CatalogController`
-- Overzicht van materialen
+- Overzicht van beschikbare materialen
 - Filteren op categorie en zoekterm
-- Live stockweergave
+- Sorteren en live stockweergave
 
 #### `CartController`
-- Beheer van reservaties
+- Beheer van reservaties (cart)
 - Checkout flow
 - Omzetten van reservatie naar order
+- AJAX-endpoints voor toevoegen zonder pagina reload
 
 #### `HomeController`
-- Basisnavigatie
 - Startpagina
+- Basisnavigatie
+- Reservatiegeschiedenis per gebruiker
 
 ---
 
 ## 4. Security Overzicht
 
-- Spring Security met rolgebaseerde toegang (USER / ADMIN)
-- BCrypt hashing voor wachtwoorden
+- Spring Security met rolgebaseerde toegang (`USER` / `ADMIN`)
+- Wachtwoorden gehasht met `BCryptPasswordEncoder`
 - CSRF-bescherming op formulieren
-- Beveiligde routes voor adminfunctionaliteit
+- Beveiligde routes voor adminfunctionaliteit en H2-console
 - Geen plain-text wachtwoorden in de code
 
-Gevoelige configuratie (zoals default wachtwoorden) wordt via
-`application.properties` geladen en is uitgesloten via `.gitignore`.
+Gevoelige configuratie (zoals default wachtwoorden) wordt geladen via
+`application.properties` en is uitgesloten via `.gitignore`.
 
 ---
 
 ## 5. Database & Persistentie
 
-- H2 file-based database
-- Data blijft behouden bij herstart
+- H2 **file-based** database
+- Data blijft behouden bij herstart van de applicatie
 - JPA + Hibernate voor ORM
-- Entiteiten zijn genormaliseerd en relationeel gekoppeld
+- Relationele koppelingen tussen gebruikers, reservaties en orders
+
+Deze setup is geschikt voor ontwikkel- en evaluatiedoeleinden.
 
 ---
 
 ## 6. Uitbreidbaarheid
 
-De applicatie is eenvoudig uitbreidbaar door:
-- nieuwe categorieën of producten toe te voegen
-- extra rollen te definiëren
-- bijkomende validaties of businessregels in services te implementeren
+De applicatie is ontworpen met uitbreidbaarheid in gedachten:
+
+- eenvoudig toevoegen van nieuwe categorieën of producten
+- uitbreiden van rollen en securityregels
+- toevoegen van extra validaties of businessregels in services
+- uitbreiden van reservatie- of orderfunctionaliteit
+
+Door de duidelijke lagenstructuur blijven wijzigingen lokaal en overzichtelijk.
 
 ---
 
@@ -146,5 +168,3 @@ De applicatie is eenvoudig uitbreidbaar door:
 
 De volledige broncode is beschikbaar via GitHub:  
 https://github.com/AdrienG0/EindProject.git
-
-
