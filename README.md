@@ -92,6 +92,23 @@ Bij het opstarten worden standaardaccounts aangemaakt indien ze nog niet bestaan
 
 Deze accounts worden aangemaakt via DataInitializer.
 
+### Profielpagina & accountbeheer
+
+Elke ingelogde gebruiker heeft toegang tot een persoonlijke profielpagina.
+Mogelijkheden:
+- Bekijken van accountgegevens (naam, e-mail, rol).
+- Aanpassen van naam.
+- Aanpassen van e-mailadres (met validatie).
+- Wijzigen van wachtwoord met bevestiging.
+
+Beveiliging en gedrag:
+- E-mailadressen worden gevalideerd op EHB-formaat (@ehb.be).
+- Bij wijziging van het e-mailadres wordt de gebruiker automatisch uitgelogd.
+- De sessie en security context worden correct geïnvalideerd.
+- De gebruiker wordt doorgestuurd naar de loginpagina met een duidelijke bevestigingsmelding.
+- Wachtwoorden blijven altijd gehasht opgeslagen.
+
+
 ### 🛒 Catalogus
 - Overzicht van alle materialen.
 - Filteren op categorie en zoekterm.
