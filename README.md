@@ -192,6 +192,7 @@ Alle finale beslissingen, logica en integratie zijn door mij uitgevoerd.
 De volledige broncode van dit project is beschikbaar via GitHub:  
 https://github.com/AdrienG0/EindProject.git
 
+📘 Technische documentatie: zie DOCUMENTATION.md
 
 
 
