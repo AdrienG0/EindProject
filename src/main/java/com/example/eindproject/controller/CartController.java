@@ -147,7 +147,7 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public String confirmCheckout(Authentication authentication, Model model) {
+    public String confirmCheckout(Authentication authentication, Model model, RedirectAttributes redirectAttributes) {
         User user = getCurrentUser(authentication);
 
         var items = cartService.getCartItems(user);
@@ -158,7 +158,7 @@ public class CartController {
 
         var total = cartService.getCartTotal(user);
 
-        Order order = new Order();
+        Order order = new Order(user);
         order = orderRepository.save(order);
 
         for (CartItem item : items) {
@@ -166,6 +166,7 @@ public class CartController {
         }
         cartItemRepository.saveAll(items);
 
+        redirectAttributes.addFlashAttribute("checkoutSuccess", "Reservatie is bevestigd!");
         model.addAttribute("order", order);
         model.addAttribute("items", items);
         model.addAttribute("total", total);

@@ -23,15 +23,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers("/h2-console/**").hasRole("ADMIN")
-
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         .requestMatchers("/", "/login", "/register",
                                 "/css/**", "/js/**", "/img/**").permitAll()
 
                         .requestMatchers("/catalog").authenticated()
-
-                        .requestMatchers("/cart/**", "/checkout/**", "/home").authenticated()
+                        .requestMatchers("/cart/**", "/checkout/**", "/home", "/mijn-reservaties").authenticated()
 
                         .anyRequest().authenticated()
                 )

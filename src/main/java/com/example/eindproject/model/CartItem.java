@@ -1,9 +1,11 @@
 package com.example.eindproject.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,7 +18,7 @@ public class CartItem {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -27,11 +29,11 @@ public class CartItem {
     public CartItem() {
     }
 
-
-    public CartItem(Order order, Product product, int quantity) {
+    public CartItem(Order order, Product product, int quantity, int rentalDays) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
+        this.rentalDays = rentalDays;
     }
 
     public CartItem(User user, Product product, int quantity, int rentalDays) {
@@ -45,6 +47,7 @@ public class CartItem {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
+        this.rentalDays = 1;
     }
 
     public Long getId() {
@@ -57,6 +60,14 @@ public class CartItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getRentalDays() {
+        return rentalDays;
+    }
+
+    public void setRentalDays(int rentalDays) {
+        this.rentalDays = rentalDays;
     }
 
     public Order getOrder() {
@@ -83,12 +94,16 @@ public class CartItem {
         this.user = user;
     }
 
-    public int getRentalDays() {
-        return rentalDays;
-    }
+    public BigDecimal getTotalPrice() {
+        if (product == null || product.getPrice() == null) {
+            return BigDecimal.ZERO;
+        }
 
-    public void setRentalDays(int rentalDays) {
-        this.rentalDays = rentalDays;
+        BigDecimal pricePerDay = product.getPrice();
+        BigDecimal days = BigDecimal.valueOf(rentalDays);
+        BigDecimal qty = BigDecimal.valueOf(quantity);
+
+        return pricePerDay.multiply(days).multiply(qty);
     }
 
     @Override

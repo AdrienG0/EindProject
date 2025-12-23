@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +19,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CartItem> items = new ArrayList<>();
 
     public Order() {
@@ -37,6 +38,10 @@ public class Order {
         return orderDate;
     }
 
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
     public User getUser() {
         return user;
     }
@@ -47,6 +52,15 @@ public class Order {
 
     public List<CartItem> getItems() {
         return items;
+    }
+
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+    }
+
+    public void addItem(CartItem item) {
+        this.items.add(item);
+        item.setOrder(this);
     }
 
     @Override
