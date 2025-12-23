@@ -1,49 +1,58 @@
-# EindProject – Webshop Applicatie
+# EindProject – Uitleensysteem Applicatie
 
-Dit project is een **webshop** ontwikkeld in het kader van het vak *Enterprise Application*.  
-De applicatie maakt gebruik van **Spring Boot**, **Thymeleaf** en **Maven** en bevat een volledige flow van registratie tot checkout.
+Dit project is een **uitleensysteem** ontwikkeld in het kader van het vak *Enterprise Application*.  
+De applicatie is gebouwd met **Spring Boot**, **Thymeleaf** en **Maven** en bevat een volledige flow van
+authenticatie tot reservatie en checkout, met **correct stockbeheer** en een **persistente database**.
 
 ---
 
 ## 📌 Inhoudstafel
-1. [Beschrijving](#beschrijving)
-2. [Technologieën](#technologieën)
-3. [Hoe te runnen](#hoe-te-runnen)
-4. [Functionaliteiten](#functionaliteiten)
-5. [Gebruik van AI-tools](#Gebruik van AI-tools)
-6. [Bronnen](#bronnen)
+1. Beschrijving
+2. Technologieën
+3. Hoe te runnen
+4. Functionaliteiten
+5. Gebruik van AI-tools
+6. Bronnen
 
 ---
 
 ## Beschrijving
 
-Deze applicatie is een eenvoudige webshop waarin gebruikers producten kunnen bekijken, een winkelmandje kunnen vullen en een bestelling kunnen plaatsen.  
-Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een beheerdersrol.
+Deze applicatie is een **uitleensysteem voor materiaal** (zoals lampen, audio, podiumelementen, kabels, …).
+Gebruikers kunnen materialen bekijken, toevoegen aan een reservatieoverzicht en hun reservatie bevestigen.
+
+Het systeem houdt **realtime stock** bij:
+- stock verlaagt bij toevoegen aan reservatie
+- stock wordt teruggezet bij verwijderen of aanpassen
+- stock blijft definitief aangepast na checkout
+
+De applicatie maakt gebruik van een **H2 file-based database**, waardoor alle data
+(gebruikers, producten, stock, reservaties) behouden blijft bij het herstarten van de applicatie.
 
 ---
 
 ## Technologieën
 
 | Technologie | Gebruikt voor |
-|------------|----------------|
-| **Java 17** | Backend logica |
-| **Spring Boot 3** | Main framework |
-| **Spring Security** | Login, registratie en beveiliging |
-| **Thymeleaf** | HTML rendering |
-| **Maven** | Build & dependencies |
-| **H2 Database** | File-based database (ontwikkelomgeving, persistent) |
-| **Bootstrap 5** | Basisstyling |
+|------------|--------------|
+| Java 17 | Backend logica |
+| Spring Boot 3 | Main framework |
+| Spring Security | Login, beveiliging en rollen |
+| Spring Data JPA | Database-interactie |
+| Thymeleaf | Server-side HTML rendering |
+| Maven | Build & dependency management |
+| H2 Database (file-based) | Persistente ontwikkel-database |
+| Bootstrap 5 | Styling en responsive UI |  
 
 ---
 
 ## Hoe te runnen
 
-### ✔ Vereisten
-- **Java JDK 17**
-- IDE zoals IntelliJ, of enkel terminal
-- Geen externe database nodig (H2 wordt automatisch geladen)
-- De H2-database wordt file-based gebruikt zodat gebruikers, winkelmandjes en orders
-  bewaard blijven bij het herstarten van de applicatie.
+### Vereisten
+- Java JDK 17
+- IDE zoals IntelliJ of terminal
+- Geen externe database nodig
+- H2 wordt file-based gebruikt zodat data behouden blijft
 
 ---
 
@@ -55,13 +64,22 @@ Het project bevat gebruikersauthenticatie, een beveiligde checkout flow en een b
 ./mvnw spring-boot:run      # macOS/Linux
 .\mvnw spring-boot:run      # Windows
 
+Open daarna de applicatie in de browser: http://localhost:8080
+
+### H2 Console (login als admin)
+- URL: http://localhost:8080/h2-console
+- JDBC URL: jdbc:h2:file:./data/eindprojectdb
+- Username: sa
+- Password: (leeg)
+
 ## 4. Functionaliteiten
 
-### 👤 Authenticatie
-- Registreren van nieuwe gebruikers.
+### 👤 Authenticatie & rollen 
 - Inloggen met e-mail en wachtwoord.
 - Spring Security configuratie.
-- Rolgebaseerde restricties (`USER`, `ADMIN`).
+- Rolgebaseerde toegang: USER en ADMIN.
+- Wachtwoorden worden gehasht met BCryptPasswordEncoder.
+- Geen plain-text wachtwoorden in de code.
 
 ### Standaardgebruikers
 Bij het opstarten worden standaardaccounts aangemaakt indien ze nog niet bestaan:
@@ -72,15 +90,32 @@ Bij het opstarten worden standaardaccounts aangemaakt indien ze nog niet bestaan
 - default user account: `adrien@student.ehb.be`
 - Gebruikersrol: `USER`
 
-Deze accounts worden enkel aangemaakt indien ze nog niet in de database aanwezig zijn.
+Deze accounts worden aangemaakt via DataInitializer.
 
+### 🛒 Catalogus
+- Overzicht van alle materialen.
+- Filteren op categorie en zoekterm.
+- Sorteren op naam en prijs.
+- Live stockweergave.
+- Producten met stock 0 worden als Uitverkocht weergegeven.
 
-### 🛒 Producten & winkelmandje
-- Productoverzichtpagina.
-- Productdetailpagina.
-- Producten toevoegen aan winkelmandje.
-- Items verwijderen of aantallen aanpassen.
-- Automatische totaalprijsberekening.
+### 🛒 Reservaties (Cart)
+- Materialen toevoegen aan reservatie
+- Aantal aanpassen
+- Items verwijderen
+- Automatische prijsberekening: prijs_per_dag × aantal_dagen × aantal
+
+Elke gebruiker heeft een eigen reservatieoverzicht, gekoppeld aan zijn account.
+
+### 🛒 Stockbeheer
+- Stock wordt onmiddellijk aangepast bij elke actie.
+- Gedrag:
+  - Toevoegen → stock verlaagt.
+  - Aantal verhogen → extra stockcontrole.
+  - Aantal verlagen → stock wordt teruggezet.
+  - Item verwijderen → stock volledig teruggezet.
+- Alle stocklogica gebeurt binnen transactionele services.
+
 
 ### 💳 Checkout & Orders
 De applicatie gebruikt Spring Security om gebruikerssessies te beheren.
