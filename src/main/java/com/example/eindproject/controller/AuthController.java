@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.security.Principal;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -98,7 +102,8 @@ public class AuthController {
             Principal principal,
             @RequestParam("name") String name,
             @RequestParam("email") String email,
-            Model model
+            Model model,
+            HttpServletRequest request
     ) {
         if (principal == null) {
             return "redirect:/login";
@@ -140,12 +145,19 @@ public class AuthController {
             user.setEmail(newEmail);
             userRepository.save(user);
 
-            return "redirect:/logout";
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            SecurityContextHolder.clearContext();
+
+            return "redirect:/login?emailChanged";
         }
 
         userRepository.save(user);
         return "redirect:/profile?updated";
     }
+
 
 
     @PostMapping("/profile/password")
