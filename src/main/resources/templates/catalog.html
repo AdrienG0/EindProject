@@ -397,8 +397,6 @@
         Zoek materiaal en voeg items toe aan je reservatieoverzicht.
     </p>
 
-    <!-- LET OP: deze alerts blijven staan voor andere pagina's/flows,
-         maar bij AJAX voegen we een toast toe -->
     <div th:if="${cartError != null and !#strings.isEmpty(cartError)}"
          class="alert alert-danger" role="alert" th:text="${cartError}"></div>
 
@@ -468,7 +466,7 @@
 
     <div class="row" th:if="${!#lists.isEmpty(products)}">
         <div class="col-md-4 mb-4" th:each="product : ${products}">
-            <div class="card h-100">
+            <div class="card h-100" th:attr="data-product-id=${product.id}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}">Materiaal</h5>
                     <h6 class="card-subtitle mb-2 text-muted"
@@ -479,10 +477,15 @@
 
                     <div class="stock-line">
                         <span>Stock:</span>
-                        <span th:text="${product.stock}">0</span>
 
-                        <span class="badge text-bg-secondary"
-                              th:if="${product.stock == null or product.stock <= 0}">
+                        <span class="stock-value"
+                              th:text="${product.stock}"
+                              th:attr="data-stock=${product.stock}">
+                            0
+                        </span>
+
+                        <span class="badge text-bg-secondary out-of-stock-badge"
+                              th:style="${product.stock == null or product.stock <= 0} ? 'display:inline-block' : 'display:none'">
                             Uitverkocht
                         </span>
                     </div>
@@ -512,7 +515,7 @@
                                    value="1"
                                    min="1"
                                    th:attr="max=${product.stock}"
-                                   class="form-control form-control-sm"
+                                   class="form-control form-control-sm quantity-input"
                                    th:disabled="${product.stock == null or product.stock <= 0}">
                         </div>
 
@@ -522,12 +525,12 @@
                                    name="rentalDays"
                                    value="1"
                                    min="1"
-                                   class="form-control form-control-sm"
+                                   class="form-control form-control-sm rental-input"
                                    th:disabled="${product.stock == null or product.stock <= 0}">
                         </div>
 
                         <button type="submit"
-                                class="btn btn-sm btn-primary"
+                                class="btn btn-sm btn-primary add-btn"
                                 th:disabled="${product.stock == null or product.stock <= 0}">
                             Toevoegen
                         </button>
@@ -576,6 +579,39 @@
         toast.show();
     }
 
+    function updateCardStockAfterAdd(form) {
+        const card = form.closest(".card");
+        if (!card) return;
+
+        const stockSpan = card.querySelector(".stock-value");
+        const badge = card.querySelector(".out-of-stock-badge");
+        const qtyInput = form.querySelector(".quantity-input");
+        const rentalInput = form.querySelector(".rental-input");
+        const addBtn = form.querySelector(".add-btn");
+
+        if (!stockSpan || !qtyInput) return;
+
+        const currentStock = parseInt(stockSpan.getAttribute("data-stock") || stockSpan.textContent, 10);
+        const qty = parseInt(qtyInput.value || "1", 10);
+
+        if (isNaN(currentStock) || isNaN(qty)) return;
+
+        const newStock = Math.max(0, currentStock - qty);
+
+        stockSpan.textContent = String(newStock);
+        stockSpan.setAttribute("data-stock", String(newStock));
+
+        qtyInput.setAttribute("max", String(newStock));
+
+        if (newStock <= 0) {
+            if (badge) badge.style.display = "inline-block";
+
+            qtyInput.disabled = true;
+            if (rentalInput) rentalInput.disabled = true;
+            if (addBtn) addBtn.disabled = true;
+        }
+    }
+
     document.querySelectorAll(".add-form").forEach((form) => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -599,6 +635,9 @@
                     if (badge && data.cartCount !== null && data.cartCount !== undefined) {
                         badge.textContent = String(data.cartCount);
                     }
+
+                    updateCardStockAfterAdd(form);
+
                     showToast(data.message, true);
                 } else {
                     showToast(data.message, false);
