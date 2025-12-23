@@ -102,7 +102,7 @@ public class CartController {
 
         try {
             cartService.removeItem(user, cartItemId);
-            redirectAttributes.addFlashAttribute("cartSuccess", "Item verwijderd en stock werd teruggezet.");
+            redirectAttributes.addFlashAttribute("cartSuccess", "Item verwijderd.");
         } catch (IllegalArgumentException ex) {
             redirectAttributes.addFlashAttribute("cartError", ex.getMessage());
         }
